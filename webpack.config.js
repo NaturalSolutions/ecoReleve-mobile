@@ -24,7 +24,7 @@ let config = function (env) {
 				'assets': path.resolve(__dirname, 'src/assets/'),
 				'pages': path.resolve(__dirname, 'src/assets/vue/pages/'),
 				'components': path.resolve(__dirname, 'src/assets/vue/components/')
-			}
+			},
 		},
 		
 		output: {
@@ -42,8 +42,17 @@ let config = function (env) {
 				{test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/, loader: 'file-loader', options: {name: '[name].[ext]?[hash]'}},
 				{test: /\.svg$/, loader: 'url-loader'},
 				{test: /\.s[ca]ss$/, loader: ['style-loader', 'css-loader', 'sass-loader']},
-				{test: /\.vue$/, loader: 'vue-loader'}
-			]
+				{test: /\.vue$/, loader: 'vue-loader'},
+				{
+						test: require.resolve('vue-params'),
+				    loader: 'imports-loader?define=>false'
+				},
+				{
+						test: require.resolve('vue-i18next'),
+				    loader: 'imports-loader?define=>false'
+				}
+			],
+			
 		},
 		
 		plugins: [
