@@ -50,6 +50,13 @@ let config = function (env) {
 				{
 						test: require.resolve('vue-i18next'),
 				    loader: 'imports-loader?define=>false'
+				},
+				{
+				  test: /\.js$/,
+				  exclude: /(node_modules|bower_components)/,
+				  use: {
+				    loader: 'babel-loader',
+				  }
 				}
 			],
 			

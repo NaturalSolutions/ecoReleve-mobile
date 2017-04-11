@@ -84,26 +84,20 @@ export default {
   beforeCreate: function () {
     //check local storage
   },
-  
-  computed: mapState({
-    // les fonctions fléchées peuvent rendre le code très succinct !
-    count: state => state.count,
 
-    // passer la valeur littérale 'count' revient à écrire `state => state.count`
-    countAlias: 'count',
 
-    // pour accéder au state local avec `this`, une fonction normale doit être utilisée
-    countPlusLocalState (state) {
-      return state.count + this.localCount
-    }
-  }),
+
+  computed: {
+    ...mapGetters([
+    ]),
+    
+  },
 
   methods: {
-    
     login: function(){
-      console.log(this.username);
+
     }
-  },
+  }
 
 }
 </script>
