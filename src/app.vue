@@ -46,11 +46,11 @@
 
             
               <f7-label>Username</f7-label>
-              <f7-input name="username" placeholder="Username" type="text"></f7-input>
+              <f7-input v-model="username" placeholder="Username" type="text"></f7-input>
             </f7-list-item>
             <f7-list-item>
               <f7-label>Password</f7-label>
-              <f7-input name="password" type="password" placeholder="Password"></f7-input>
+              <f7-input v-model="password" name="password" type="password" placeholder="Password"></f7-input>
             </f7-list-item>
           </f7-list>
           <f7-list>
@@ -68,9 +68,6 @@
 
   </div>
 
-
-
-
 </template>
 
 
@@ -81,21 +78,30 @@ import { mapGetters } from 'vuex'
 import { mapState } from 'vuex'
 export default {
 
-  beforeCreate: function () {
-    //check local storage
+  data: function () {
+    return {
+      password: ''
+    }
   },
-
-
-
+  
   computed: {
-    ...mapGetters([
-    ]),
+    username: {
+      get () {
+        return this.$store.state.user.username
+      },
+      set (value) {
+        this.$store.commit('setUserName', value)
+      }
+    },
     
   },
 
   methods: {
-    login: function(){
-
+    login: function(e) {
+      this.$store.dispatch('userLogin', {
+        username: this.username,
+        password: this.password,
+      });
     }
   }
 

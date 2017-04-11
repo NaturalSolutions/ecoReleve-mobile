@@ -1,6 +1,7 @@
 export default {
   state: {
-    profile: {}
+    profile: {},
+    username: ''
   },
   getters: {
     userNames: function(state) {

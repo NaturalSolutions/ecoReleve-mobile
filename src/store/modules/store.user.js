@@ -1,24 +1,27 @@
 export default {
   state: {
-    profile: {}
+    username: 'Matheo',
   },
   getters: {
-    userNames: function(state) {
-      return state.profile.firstName + ' ' + state.profile.lastName;
+    username: function(state) {
+      return state.username;
     },
-    userProfile: function(state) {
-      return state.profile;
-    }
   },
+
   mutations: {
-    userSetProfile: function(state, profile) {
-      state.profile = profile;
+    setUserName: function(state, value) {
+      state.username = value;
+    },
+    setUserProfile: function(state, value){
+      console.log(value);
     }
   },
+
   actions: {
     userLogin: function(context, options) {
       setTimeout(function() {
-        context.commit('userSetProfile', {
+        
+        context.commit('setUserProfile', {
           firstName: options.firstName,
           lastName: options.lastName
         });
