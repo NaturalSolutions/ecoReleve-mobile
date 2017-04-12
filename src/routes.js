@@ -2,7 +2,7 @@ export default [
 
   {
     path: '/project/:id/',
-    component: require('./assets/vue/pages/projects/project.vue'),
+    component: require('./assets/vue/pages/project.vue'),
     tabs: [
       {
         path: '/',
@@ -18,13 +18,13 @@ export default [
   },  
 
   {
-    path: '/observations/:id/',
-    component: require('./assets/vue/pages/observations/observation.vue'),
+    path: '/observation/:id/',
+    component: require('./assets/vue/pages/observation.vue'),
   },
 
   {
     path: '/projects/',
-    component: require('./assets/vue/pages/projects/projects.vue'),
+    component: require('./assets/vue/pages/projects.vue'),
     tabs: [
       {
         path: '/',
@@ -32,7 +32,7 @@ export default [
         component: require('./assets/vue/pages/projects/my.projects.vue')
       },
       {
-        path: '/all-projects/',
+        path: '/all/',
         tabId: 'allProjects',
         component: require('./assets/vue/pages/projects/all.projects.vue')
       }

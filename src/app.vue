@@ -7,11 +7,11 @@
 
     <!-- Left Panel -->
     <f7-panel left reveal layout="dark">
-      <f7-view id="left-panel-view" navbar-through :dynamic-navbar="true">
-        <f7-navbar v-if="$theme.ios" title="Left Panel" sliding></f7-navbar>
+      <f7-view id="left-panel-view" navbar-through>
+        <f7-navbar v-if="$theme.ios" title="Left Panel"></f7-navbar>
         <f7-pages>
           <f7-page>
-            coucou
+
           </f7-page>
         </f7-pages>
       </f7-view>
@@ -21,30 +21,15 @@
     <!-- Main Views -->
     <f7-views>
 
-      <f7-view id="main-view" navbar-through :dynamic-navbar="true" main>
-        <!-- iOS Theme Navbar -->
-        <f7-navbar v-if="$theme.ios">
-          <f7-nav-left>
-            <f7-link icon="icon-bars" open-panel="left"></f7-link>
-          </f7-nav-left>
-          <f7-nav-center sliding>Airelle</f7-nav-center>
-        </f7-navbar>
-
+      <f7-view navbar-through main>
         <!-- Pages -->
         <f7-pages>
           <f7-page>
-
-          <f7-navbar v-if="$theme.material">
-            <f7-nav-left>
-              <f7-link icon="icon-bars" open-panel="left"></f7-link>
-            </f7-nav-left>
-            <f7-nav-center sliding>Airelle</f7-nav-center>
-          </f7-navbar>
           
+          <div class="logo"></div>
+
           <f7-list form>
             <f7-list-item>
-
-            
               <f7-label>Username</f7-label>
               <f7-input v-model="username" placeholder="Username" type="text"></f7-input>
             </f7-list-item>
@@ -53,55 +38,61 @@
               <f7-input v-model="password" name="password" type="password" placeholder="Password"></f7-input>
             </f7-list-item>
           </f7-list>
-          <f7-list>
-            <f7-list-button v-on:click="login" title="Sign In"></f7-list-button>
-          </f7-list>
 
-          <f7-list>
-            <f7-list-item link="/projects/" title="Projects"></f7-list-item>
-          </f7-list>
-
+          <f7-toolbar bottom>
+              <f7-button class="full-width" fill v-on:click="login" title="Sign In">Sign in</f7-button>
+          </f7-toolbar>
+   
           </f7-page>
         </f7-pages>
+
       </f7-view>
+
     </f7-views>
 
   </div>
-
 </template>
 
 
 
 
 <script>
-import { mapGetters } from 'vuex'
-import { mapState } from 'vuex'
-export default {
+/*import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'*/
 
+export default {
+  //we don't want the password in the store
+  //but we must handle local storage here
   data: function () {
     return {
       password: ''
     }
-  },
-  
+   },
+
   computed: {
     username: {
       get () {
+        console.log('passed');
         return this.$store.state.user.username
       },
       set (value) {
-        this.$store.commit('setUserName', value)
+        this.$store.commit('setUsername', value)
       }
     },
-    
   },
 
   methods: {
-    login: function(e) {
+    login () {
       this.$store.dispatch('userLogin', {
         username: this.username,
         password: this.password,
+      }).then(() => {
+        this.redirect();
       });
+    },
+    
+    redirect () {
+      this.$f7.mainView.router.load({url: '/projects/', force: true})
     }
   }
 

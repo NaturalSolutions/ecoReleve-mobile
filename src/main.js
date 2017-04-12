@@ -58,21 +58,18 @@ var ecoreleve = ecoreleve || {};
 ecoreleve.app = new Vue({
 	store,
 	el: '#app',
-	init: true,//Async init doesn't work with deep link
-	material: true,
-	pushState: true,
-	pushStateSeparator: '#',
-	swipePanel: 'left',
-	swipePanelOnlyClose: true,
 	template: '<app/>',
-	// Init Framework7 by passing parameters here
 	framework7: {
+		init: true,//Async init doesn't work with deep link
 		root: '#app',
-		/* Uncomment to enable Material theme: */
+		routes: Routes,
 		material: true,
-		routes: Routes
+		pushState: true,
+		pushStateSeparator: '#',
+		swipePanel: 'left',
+		swipePanelOnlyClose: true,
+		
 	},
-	// Register App Component
 	components: {
 		app: App
 	}
