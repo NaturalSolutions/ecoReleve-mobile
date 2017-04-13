@@ -1,34 +1,62 @@
 <template>
-  <f7-page with-subnavbar>
-  
-	  <f7-navbar>
-	  	<f7-nav-left>
-	  	  <f7-link icon="icon-bars" open-panel="left"></f7-link>
-	  	</f7-nav-left>
-	  	 <f7-nav-center>Projects</f7-nav-center>
-	  	 <f7-subnavbar :slot="$theme.material ? 'after-inner' : 'default'">
-	  	   <f7-buttons>
-	  	     <f7-button active route-tab-link="#myProjects" href="/projects/">My projects</f7-button>
-	  	     <f7-button route-tab-link="#allProjects" href="/projects/all/">All projects</f7-button>
-	  	   </f7-buttons>
-	  	 </f7-subnavbar>
-	  </f7-navbar>
+<f7-page with-subnavbar>
+  <f7-navbar back-link="Back" title="Projects" sliding>
+    <f7-subnavbar sliding :slot="$theme.material ? 'after-inner' : 'default'">
+      <f7-buttons>
+        <f7-button tab-link="#tab1" active>My projects</f7-button>
+        <f7-button tab-link="#tab2">All projects</f7-button>
+      </f7-buttons>
+    </f7-subnavbar>
+  </f7-navbar>
 
-    <f7-tabs>
-      <f7-tab route-tab-id="myProjects"></f7-tab>
-      <f7-tab active route-tab-id="allProjects"></f7-tab>
-    </f7-tabs>
+  <f7-tabs>
 
-  </f7-page>
+    <f7-tab id="tab1" active>
+      <f7-block>
+        <f7-list>
+          <f7-list-group v-for="project in myProjects">
+        <f7-list-item
+          checkbox
+          :link="'/projects/' + project.id" 
+          :title="'Project ' + project.name"
+        ></f7-list-item>
+      </f7-list-group>
+        </f7-list>
+      </f7-block>
+    </f7-tab>
+
+    <f7-tab id="tab2">
+    <f7-block>
+      <f7-list>
+        <f7-list-group v-for="project in projects">
+      <f7-list-item
+        checkbox 
+        :link="'/projects/' + project.id" 
+        :title="'Project ' + project.name"
+      ></f7-list-item>
+    </f7-list-group>
+      </f7-list>
+    </f7-block>
+    </f7-tab>
+
+  </f7-tabs>
+</f7-page>
 </template>
 
 <script>
 export default {
-	data: function () {
-	  return {
-	 		
-	  }
-	}
+	beforeCreate () {
+	  this.$store.dispatch('fetchProjects')
+	},
+
+	computed: {
+	  myProjects() {
+	    return this.$store.getters.myProjects;
+	  },
+	  projects() {
+	    return this.$store.state.projects.projects;
+	  },
+	},
 }
 </script>
 

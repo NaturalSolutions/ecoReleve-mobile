@@ -1,48 +1,42 @@
 import axios from 'axios'
 
+let _profile = {
+    id: 1
+}
+
 export default {
 
   state: {
-    username: 'Matheo',
-    profile: {},
-    status: 'offline'
+    profile: {
+      id: 1
+    },
   },
-
-
-
 
   getters: {
-    username: function(state) {
-      return state.username;
+    username: state => {
+      state.username;
     },
   },
 
-
-
   mutations: {
-    setUsername: function(state, value) {
+    setUsername (state, value) {
       state.username = value;
     },
-    setUserProfile: function(state, value){
-      state.profile = value;     
+    setUserProfile (state, value){
+      state.profile = value;
     }
   },
 
-
-
   actions: {
     userLogin ({ commit }, options) {
-      console.log(options);
       return new Promise((resolve, reject) => {
         setTimeout(() => {
-          commit('setUserProfile', {
-            test: 'test'
-          })
+          commit('setUserProfile', _profile)
           resolve()
-
         }, 1000)
       })
-
+      
+      //url -> user
 /*    return axios.get('/user', {
           params: {
             username: options.username,

@@ -6,6 +6,8 @@ import Vuex from 'vuex'
 // import products from './modules/products'
 // import createLogger from '../../../src/plugins/logger'
 import user from './modules/user'
+import projects from './modules/store.projects'
+import project from './modules/store.project'
 
 Vue.use(Vuex)
 
@@ -15,7 +17,9 @@ export default new Vuex.Store({
   // actions,
   // getters,
   modules: {
-  	user
+  	user,
+  	projects,
+  	project
   },
   // strict: debug,
   // plugins: debug ? [createLogger()] : []
