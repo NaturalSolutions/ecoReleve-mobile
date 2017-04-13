@@ -44,7 +44,7 @@
     "axios": "^0.16.1",
     "babel": "^6.23.0",
     "framework7": "^1.5.4",
-    "framework7-vue": "^0.8.5",
+    "framework7-vue": "^0.9.0",
     "i18next": "^7.1.3",
     "install": "^0.8.8",
     "vue": "^2.2.6",
