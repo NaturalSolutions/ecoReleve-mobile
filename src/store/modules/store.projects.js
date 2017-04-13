@@ -45,7 +45,6 @@ export default {
     },
 
     setCurrentProject (state, value) {
-      console.log(value);
       state.currentProject = value
     }
   },
@@ -58,7 +57,7 @@ export default {
           commit('addProject',
               {
                 id: 4,
-                name: 'ploouuuuf'
+                name: 'new project'
               },
           )
           resolve()

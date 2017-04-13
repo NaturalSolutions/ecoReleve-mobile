@@ -1,6 +1,42 @@
 import axios from 'axios'
 
 let _project = {
+  observations: [
+    {
+      id: 1,
+      name: 'observation name',
+      trace: [
+        {
+          name: "field 1",
+          type: "text",
+          value: "du texte"
+        },        {
+          name: "field 2",
+          type: "text",
+          value: "du texte"
+        }
+      ],
+      required: [
+        {
+          name: "field 1",
+          type: "text",
+          value: "du texte"
+        }
+      ],
+      optional: [
+        {
+          name: "field 1",
+          type: "text",
+          value: "du texte"
+        }
+      ],
+
+    },
+    {
+      id: 2,
+      name: 'observation name'
+    }
+  ], 
   stations: [
     {
       id: 1,
@@ -11,16 +47,6 @@ let _project = {
       name: 'station name',
     }
   ],
-  observations: [
-    {
-      id: 1,
-      name: 'observation name'
-    },
-    {
-      id: 2,
-      name: 'observation name'
-    }
-  ], 
 }
 
 
@@ -29,14 +55,6 @@ export default {
   state: _project,
 
   getters: {
-    //filter by project
-    stations: state => {
-      return state.stations
-    },
-    
-    observations: state => {
-      return state.observations
-    },
   },
 
   mutations: {
@@ -55,21 +73,6 @@ export default {
           resolve()
         }, 1000)
       })
-
-      /*    
-        return axios.get('/user', {
-          params: {
-            username: options.username,
-            password: options.password //(need sha)
-          }
-        })
-        .then(function (response) {
-          context.commit('setUserProfile', response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      */
     }
   }
 }

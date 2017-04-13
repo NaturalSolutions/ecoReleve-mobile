@@ -33,6 +33,7 @@ export default {
         setTimeout(() => {
           commit('setUserProfile', _profile)
           resolve()
+
         }, 1000)
       })
       

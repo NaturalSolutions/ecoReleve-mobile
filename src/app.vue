@@ -1,6 +1,6 @@
 <template>
   <!-- App -->
-  <div id="app">
+  <div id="app" class="framework7-root">
 
     <!-- Statusbar -->
     <f7-statusbar></f7-statusbar>
