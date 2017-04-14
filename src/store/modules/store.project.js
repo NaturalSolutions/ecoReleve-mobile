@@ -33,7 +33,18 @@ let _project = {
     },
     {
       id: 2,
-      name: 'observation name'
+      name: 'observation name',
+      trace: [
+        {
+          name: "obs2",
+          type: "text",
+          value: "du texte"
+        },        {
+          name: "obs2",
+          type: "text",
+          value: "du texte"
+        }
+      ],
     }
   ], 
   stations: [

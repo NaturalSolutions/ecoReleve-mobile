@@ -242,11 +242,12 @@
 export default {
   computed: {
     trace() {
-      return this.$store.getters.getTrace;
+      return this.$store.state.observation.observation.trace;
     },
   },
 
   beforeCreate () {
+    console.log(this.$route.params.id);
     this.$store.dispatch('setCurrentObservation', { id: parseInt(this.$route.params.id) })
   },
 

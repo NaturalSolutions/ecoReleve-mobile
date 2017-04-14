@@ -8,19 +8,18 @@ export default {
 
   getters: {
     
-    getTrace: (state) => {
-      return state.observation.trace
-    },
-
   },
 
   mutations: {
     setCurrentObservation (state, value) {
+      console.log(value);
       state.observation = value
     }
   },
 
   actions: {
+
+    //prefer fetch again
     setCurrentObservation ({ commit, rootState }, options) {
 
       let observation = rootState.project.observations.find((obs) => {
