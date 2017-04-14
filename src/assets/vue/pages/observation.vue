@@ -1,6 +1,9 @@
 <template>
 <f7-page with-subnavbar>
-  <f7-navbar back-link="Back" title="Project" sliding>
+  <f7-navbar back-link="Back" title="Observation" sliding>
+    <f7-nav-right>
+      <f7-link icon="icon-bars" open-panel="left"></f7-link>
+    </f7-nav-right>
     <f7-subnavbar sliding :slot="$theme.material ? 'after-inner' : 'default'">
       <f7-buttons>
         <f7-button tab-link="#obsTab1" active>Tracé</f7-button>
@@ -19,6 +22,24 @@
           <f7-input name="name" type="text" placeholder="Name"></f7-input>
         </f7-list-item>
       </f7-list>
+
+      <f7-fab-speed-dial>
+        <f7-fab-actions>
+          <f7-fab-action color="pink" @click="onActionClick">A</f7-fab-action>
+          <f7-fab-action color="orange" @click="onActionClick">B</f7-fab-action>
+          <f7-fab-action color="green" @click="onActionClick">C</f7-fab-action>
+        </f7-fab-actions>
+        <f7-fab>
+          <f7-icon icon="icon-plus"></f7-icon>
+          <f7-icon icon="icon-close"></f7-icon>
+        </f7-fab>
+      </f7-fab-speed-dial>
+
+      <f7-toolbar bottom class="custom">
+          <f7-button class="full-width" fill>Next</f7-button>
+      </f7-toolbar>
+
+
     </f7-tab>
 
     <f7-tab id="obsTab2">
@@ -87,6 +108,7 @@
         <f7-label>File</f7-label>
         <f7-input type="file"></f7-input>
       </f7-list-item>
+
     </f7-list>
 
     <f7-block-title>Form With Floating Labels</f7-block-title>
@@ -230,7 +252,11 @@ export default {
 
 
   methods: {
-    onChange: function (event){
+    onActionClick (e){
+      console.log(e);
+
+    },
+    onChange (event){
       console.log('change');
     }
   }

@@ -1,15 +1,15 @@
 import axios from 'axios'
 
 let _profile = {
-    id: 1
+    id: 1,
+    firstName: 'Matheo',
+    lastName: 'Jaouen'
 }
 
 export default {
 
   state: {
-    profile: {
-      id: 1
-    },
+    profile: _profile
   },
 
   getters: {
@@ -33,7 +33,6 @@ export default {
         setTimeout(() => {
           commit('setUserProfile', _profile)
           resolve()
-
         }, 1000)
       })
       

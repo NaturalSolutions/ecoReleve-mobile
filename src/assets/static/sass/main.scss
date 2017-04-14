@@ -188,10 +188,20 @@ input {
 .logo{
 	height: 100px;
 	width: 100px; 
-	background: red;
+	background: blue;
 	margin: 100px auto;
 }
 
 .full-width{
 	width: 100%; 
+}
+
+.login-page{
+	.page-content{
+		padding-top: 0px!important;
+	}
+}
+
+.toolbar-bottom.custom{
+	position: fixed;
 }

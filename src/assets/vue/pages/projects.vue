@@ -1,6 +1,9 @@
 <template>
 <f7-page with-subnavbar>
-  <f7-navbar back-link="Back" title="Projects" sliding>
+  <f7-navbar title="Projects" sliding>
+	  <f7-nav-right>
+	    <f7-link icon="icon-bars" open-panel="left"></f7-link>
+	  </f7-nav-right>
     <f7-subnavbar sliding :slot="$theme.material ? 'after-inner' : 'default'">
       <f7-buttons>
         <f7-button tab-link="#projectTab1" active>My projects</f7-button>

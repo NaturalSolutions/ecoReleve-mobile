@@ -11,7 +11,11 @@
         <f7-navbar v-if="$theme.ios" title="Left Panel"></f7-navbar>
         <f7-pages>
           <f7-page>
-
+            <f7-navbar :title="profile.firstName + ' ' + profile.lastName"></f7-navbar>
+            <f7-list>
+              <f7-list-item link="#" title="Projects"></f7-list-item>
+              <f7-list-item link="#" title="Projects"></f7-list-item>
+            </f7-list>
           </f7-page>
         </f7-pages>
       </f7-view>
@@ -24,7 +28,7 @@
       <f7-view navbar-through main>
         <!-- Pages -->
         <f7-pages>
-          <f7-page>
+          <f7-page class="login-page">
           
           <div class="logo"></div>
 
@@ -72,12 +76,14 @@ export default {
   computed: {
     username: {
       get () {
-        console.log('passed');
         return this.$store.state.user.username
       },
       set (value) {
         this.$store.commit('setUsername', value)
       }
+    },
+    profile() {
+      return this.$store.state.user.profile;
     },
   },
 
