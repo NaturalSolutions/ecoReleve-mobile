@@ -17,6 +17,7 @@ import Framework7Vue from 'framework7-vue'
 
 // Import App Custom Styles
 import AppStyles from './assets/static/sass/main.scss'
+import LeafletStyles from '../node_modules/leaflet/dist/leaflet.css'
 
 // Import Routes
 import Routes from './routes.js'

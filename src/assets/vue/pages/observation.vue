@@ -225,7 +225,6 @@ export default {
   },
 
   beforeCreate () {
-    console.log('first');
     this.$store.dispatch('setCurrentObservation', { id: parseInt(this.$route.params.id) })
   },
 

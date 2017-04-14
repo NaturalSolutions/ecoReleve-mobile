@@ -30,7 +30,6 @@ let _project = {
           value: "du texte"
         }
       ],
-
     },
     {
       id: 2,

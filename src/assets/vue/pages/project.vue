@@ -24,17 +24,8 @@
         </f7-block>
     </f7-tab>
 
-    <f7-tab id="tab2">
-	    <f7-block>
-	      <f7-list>
-	        <f7-list-group v-for="station in stations">
-		     		<f7-list-item
-		        :link="'/project/' + station.id" 
-		        :title="station.name"
-		      ></f7-list-item>
-	    		</f7-list-group>
-	      </f7-list>
-	    </f7-block>
+    <f7-tab id="tab2" @tab:show="onTabShow">
+	      <div id="map"></div>
     </f7-tab>
 
   </f7-tabs>
@@ -42,9 +33,14 @@
 </template>
 
 <script>
+import Leaflet from 'leaflet'
+
 export default {
 	beforeCreate () {
 	  this.$store.commit('setCurrentProject', this.$route.params.id)
+	},
+
+	mounted () {
 	},
 
 	computed: {
@@ -55,5 +51,30 @@ export default {
 	    return this.$store.state.project.stations;
 	  },
 	},
+
+	methods: {
+		onTabShow (){
+			if(this.map)
+				return;
+
+			this.map = L.map('map').setView([51.505, -0.09], 13);
+
+			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+			    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(this.map);
+
+			L.marker([51.5, -0.09]).addTo(this.map)
+			    .bindPopup('customizable popup')
+			    .openPopup();
+		}
+	}
 }
 </script>
+
+<style>
+	#map{
+		min-height: 400px;
+		height: 100%;
+		width: 100%;
+	}
+</style>
