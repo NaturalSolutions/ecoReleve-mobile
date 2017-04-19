@@ -17,7 +17,7 @@
     <f7-tab id="projectTab1" active>
       <f7-block>
         <f7-list>
-          <f7-list-group v-for="project in myProjects">
+          <f7-list-group v-for="project in myProjects" v-bind:key="project.id">
         <f7-list-item
           checkbox
           :link="'/projects/' + project.id" 
@@ -31,7 +31,7 @@
     <f7-tab id="projectTab2">
     <f7-block>
       <f7-list>
-        <f7-list-group v-for="project in projects">
+        <f7-list-group v-for="project in projects" v-bind:key="project.id">
       <f7-list-item
         checkbox 
         :link="'/projects/' + project.id" 

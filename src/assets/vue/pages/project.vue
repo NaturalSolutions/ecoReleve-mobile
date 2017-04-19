@@ -17,7 +17,7 @@
     <f7-tab id="tab1" active>
         <f7-block>
           <f7-list>
-            <f7-list-group v-for="observation in observations">
+            <f7-list-group v-for="observation in observations" v-bind:key="observation.id">
     	     		<f7-list-item
     	        :link="'/observation/' + observation.id" 
     	        :title="'observation ' + observation.name"
@@ -39,6 +39,8 @@
 import Leaflet from 'leaflet'
 
 export default {
+
+
 	beforeCreate () {
 	  this.$store.commit('setCurrentProject', this.$route.params.id)
 	},

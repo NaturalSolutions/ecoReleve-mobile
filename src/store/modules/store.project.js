@@ -5,47 +5,7 @@ let _project = {
     {
       id: 1,
       name: 'observation name',
-      trace: [
-        {
-          name: "field 1",
-          type: "text",
-          value: "du texte"
-        },        {
-          name: "field 2",
-          type: "text",
-          value: "du texte"
-        }
-      ],
-      required: [
-        {
-          name: "field 1",
-          type: "text",
-          value: "du texte"
-        }
-      ],
-      optional: [
-        {
-          name: "field 1",
-          type: "text",
-          value: "du texte"
-        }
-      ],
     },
-    {
-      id: 2,
-      name: 'observation name',
-      trace: [
-        {
-          name: "obs2",
-          type: "text",
-          value: "du texte"
-        },        {
-          name: "obs2",
-          type: "text",
-          value: "du texte"
-        }
-      ],
-    }
   ], 
   stations: [
     {

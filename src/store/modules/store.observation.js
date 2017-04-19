@@ -1,32 +1,56 @@
 import axios from 'axios'
+import Vue from 'vue'
 
+
+let _obs = {
+  id: 1,
+  name: 'observation name',
+  trace: [
+    {
+      name: "field 1",
+      type: "text",
+      value: "du texte"
+    },        {
+      name: "field 2",
+      type: "text",
+      value: "du texte"
+    }
+  ],
+  required: [
+    {
+      name: "field 1",
+      type: "text",
+      value: "du texte"
+    }
+  ],
+  optional: [
+    {
+      name: "field 1",
+      type: "text",
+      value: "du texte"
+    }
+  ],
+};
 
 export default {
 
-  state: {
-  },
+  state: {},
 
   getters: {
     
   },
 
   mutations: {
-    setCurrentObservation (state, value) {
-      console.log(value);
-      state.observation = value
+    setInitialState (state, value) {
+      state = Object.assign(state, value);
     }
   },
 
   actions: {
 
     //prefer fetch again
-    setCurrentObservation ({ commit, rootState }, options) {
-
-      let observation = rootState.project.observations.find((obs) => {
-        return obs.id === options.id
-      })
-
-      commit('setCurrentObservation', observation)
+    setInitialState ({ commit, rootState }, options) {
+      commit('setInitialState', _obs)
     }
   }
 }
