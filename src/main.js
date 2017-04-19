@@ -69,7 +69,10 @@ ecoreleve.app = new Vue({
 		pushStateSeparator: '#',
 		swipePanel: 'left',
 		swipePanelOnlyClose: true,
-		
+		preroute: function (view, options) {
+			console.log(store);
+		   return true;
+		}
 	},
 	components: {
 		app: App

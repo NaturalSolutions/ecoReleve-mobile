@@ -69,17 +69,21 @@ export default {
   //'cause we can't bind vuex with dynamic v-models
   data: function(){
     return {
-      trace: _.cloneDeep(this.$store.state.observation.trace)
+      trace: []
     }
   },
 
   components: {
-    // <my-component> will only be available in parent's template
     'custom-input': CustomInput
   },
 
   beforeCreate () {
-    this.$store.dispatch('setInitialState', { id: parseInt(this.$route.params.id) })
+    console.log('create');
+    let payload = { id: parseInt(this.$route.params.id) }
+    this.$store.dispatch('setInitialState', payload)
+    .then(() => {
+      this.trace = _.cloneDeep(this.$store.state.observation.trace)
+    });
   },
 
 

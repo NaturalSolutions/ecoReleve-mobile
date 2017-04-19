@@ -41,16 +41,25 @@ export default {
   },
 
   mutations: {
-    setInitialState (state, value) {
+    setState (state, value) {
       state = Object.assign(state, value);
-    }
+    },
+    
   },
 
   actions: {
-
-    //prefer fetch again
+    //(prefer fetch again)
     setInitialState ({ commit, rootState }, options) {
-      commit('setInitialState', _obs)
+      return new Promise((resolve, reject) => {
+          setTimeout(()=>{
+            commit('setState', _obs)
+            resolve()
+          }, 1000)
+      })
+    },
+
+    saveObservation({commit, rootstate}, options){
+
     }
   }
 }
