@@ -10,10 +10,13 @@ Node.js: 6.5.0 (Supports ES6)
 
 ## Usage
 
-Just clone the repo then,
+Clone the repository.
 
+### Browser development
+`cordova run browser -- --live-reload`
+
+### Mobile
 ```
 cordova run android -- --lr
-cordova run browser -- --live-reload
 cordova run ios -- --lr
 ```
