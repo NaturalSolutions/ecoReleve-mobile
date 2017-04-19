@@ -12,8 +12,8 @@ let _obs = {
       value: "du texte"
     },        {
       name: "field 2",
-      type: "text",
-      value: "du texte"
+      type: "number",
+      value: 4
     }
   ],
   required: [

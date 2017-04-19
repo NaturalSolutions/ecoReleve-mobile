@@ -61,7 +61,7 @@ ecoreleve.app = new Vue({
 	el: '#app',
 	template: '<app/>',
 	framework7: {
-		init: true,//Async init doesn't work with deep link
+		init: true, //Async init doesn't work with deep link
 		root: '#app',
 		routes: Routes,
 		material: true,
