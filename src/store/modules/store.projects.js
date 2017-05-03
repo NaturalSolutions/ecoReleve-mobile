@@ -1,4 +1,5 @@
-import axios from 'axios'
+import { erdApi } from '../../main.js'
+
 
 let _projects = [
   {
@@ -56,8 +57,8 @@ export default {
         setTimeout(() => {
           commit('addProject',
               {
-                id: 4,
-                name: 'new project'
+                ID: 4,
+                Name: 'new project'
               },
           )
           resolve()
@@ -67,27 +68,18 @@ export default {
 
     //url -> projects
     fetchProjects ({ commit }, options) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          commit('setProjects', _projects)
-          resolve()
-        }, 1000)
-      })
 
-      /*    
-        return axios.get('/user', {
-          params: {
-            username: options.username,
-            password: options.password //(need sha)
-          }
-        })
-        .then(function (response) {
-          context.commit('setUserProfile', response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      */
+      return erdApi.get('projects/?criteria=%5B%5D&page=1&per_page=200&offset=0&order_by=%5B%5D&typeObj=1', {
+
+      })
+      .then(function (response) {
+        console.log(response);
+        console.log(response.data[1]);
+        commit('setProjects', response.data[1])
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     }
   }
 }

@@ -59,7 +59,7 @@ export default {
     },
 
     saveObservation({commit, rootstate}, options){
-
+      //launch xhr here (mutate the store on success)
     }
   }
 }

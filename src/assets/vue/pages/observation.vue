@@ -20,9 +20,7 @@
     
       
   <f7-list-item v-for="(field, index) in trace" v-bind:key="field.id">
-    <custom-input 
-      :param=field 
-      >
+    <custom-input :param=field >
     </custom-input>
   </f7-list-item>
 
@@ -78,7 +76,6 @@ export default {
   },
 
   beforeCreate () {
-    console.log('create');
     let payload = { id: parseInt(this.$route.params.id) }
     this.$store.dispatch('setInitialState', payload)
     .then(() => {
@@ -89,8 +86,7 @@ export default {
 
   methods: {
     submit(){
-      //mutate the store here
-      console.log(this.$data);
+      this.$store.dispatch('saveObservation', this.$data);
     },
     onActionClick(e){
       console.log(e);

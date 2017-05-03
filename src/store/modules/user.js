@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { portalApi } from '../../main.js'
 
 let _profile = {
     id: 1,
@@ -12,44 +12,33 @@ export default {
     profile: _profile
   },
 
-  getters: {
-    username: state => {
-      state.username;
-    },
-  },
-
   mutations: {
-    setUsername (state, value) {
-      state.username = value;
-    },
-    setUserProfile (state, value){
+    setUserProfile (state, value) {
       state.profile = value;
+    },
+    setCookie (state, value) {
+      state.cookie = value;
     }
   },
 
   actions: {
     userLogin ({ commit }, options) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          commit('setUserProfile', _profile)
-          resolve()
-        }, 1000)
+
+      //sha could be done here
+      var data= 'userId=' + options.userId + '&password=' + options.password
+
+      return portalApi.post('security/login', data)
+      .then(function (response) {
+        context.commit('setUserProfile', response);
       })
-      
-      //url -> user
-/*    return axios.get('/user', {
-          params: {
-            username: options.username,
-            password: options.password //(need sha)
-          }
-        })
-        .then(function (response) {
-          context.commit('setUserProfile', response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      */
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    },
+
+    disconnect (){
+
     }
   }
 }
