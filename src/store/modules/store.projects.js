@@ -5,7 +5,7 @@ let _projects = [
   {
     id: 1,
     name: 'first',
-    creator: 1
+    creator: 1²
   }, 
   {
     id: 2,

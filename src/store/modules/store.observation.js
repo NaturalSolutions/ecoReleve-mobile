@@ -1,31 +1,39 @@
 import axios from 'axios'
 import Vue from 'vue'
 
+var formParameters = [ 
+  { id: 1, label: 'First label', type: 'input', answer: 'Antoine' },
+  { id: 2, label: 'Last Name', type: 'input' },
+  { id: 3, label: 'Email', type: 'input'},
+  { id: 4, label: 'Job', type: 'select', options: ['...', 'Developer', 'Ops', 'Project Manager'], answer: 'Developer' },
+  { id: 5, label: 'Gender', type: 'radio', options: ['Male', 'Female'], answer: 'Male'},
+  { id: 6, label: 'Address', type: 'textarea', placeholder: 'Your zip code and city'}
+];
+
 
 let _obs = {
   id: 1,
   name: 'observation name',
   trace: [
     {
-      name: "field 1",
+      label: "field 1",
       type: "text",
       value: "du texte"
     },        {
-      name: "field 2",
+      label: "field 2",
       type: "number",
-      value: 4
     }
   ],
   required: [
     {
-      name: "field 1",
-      type: "text",
+      label: "field 1",
+      type: "number",
       value: "du texte"
     }
   ],
   optional: [
     {
-      name: "field 1",
+      label: "field 1",
       type: "text",
       value: "du texte"
     }

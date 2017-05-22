@@ -34,7 +34,6 @@ export default {
   },
 
   actions: {
-    
     //url -> projects/:id
     fetchProject ({ commit }, options) {
       return new Promise((resolve, reject) => {

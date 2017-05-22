@@ -20,7 +20,8 @@
     
       
   <f7-list-item v-for="(field, index) in trace" v-bind:key="field.id">
-    <custom-input :param=field >
+
+    <custom-input v-if="field.type === 'number'" :param=field>
     </custom-input>
   </f7-list-item>
 
@@ -65,6 +66,7 @@ import _ from 'lodash'
 export default {
 
   //'cause we can't bind vuex with dynamic v-models
+
   data: function(){
     return {
       trace: []

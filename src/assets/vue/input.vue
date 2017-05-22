@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<f7-label>{{ param.name }}</f7-label>
+		<f7-label>{{ param.label }}</f7-label>
 		<f7-input 
 			name="name" 
 			:type=param.type
@@ -32,9 +32,6 @@ export default {
 		//could certainly be in a watcher
 		//set global variable to prevent route change
 		onKeyup(e){
-
-
-			console.log(this.param.type);
 			if(this.param.value != 'motif'){
 				this.hasError = true
 			} else {
