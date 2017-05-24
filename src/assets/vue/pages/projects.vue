@@ -14,33 +14,57 @@
 
   <f7-tabs>
 
+
+
+
+
+
+
     <f7-tab id="projectTab1" active>
-      <f7-block>
+
         <f7-list>
-          <f7-list-group v-for="project in myProjects" v-bind:key="project.ID">
-        <f7-list-item
-          checkbox
-          :link="'/projects/' + project.ID" 
-          :title="'Project ' + project.Name"
-        ></f7-list-item>
-      </f7-list-group>
+          <f7-list-group  v-for="project in myProjects" v-bind:key="project.ID">
+
+            <f7-list-item
+              v-on:click="handleMinesProjectsClick($event, project)"
+              checkbox
+              :link="'/projects/' + project.ID" 
+              :title="'Project ' + project.Name"
+              value="project.ID"
+            ></f7-list-item>
+
+          </f7-list-group>
         </f7-list>
-      </f7-block>
+
+        <f7-toolbar bottom class="custom">
+            <f7-button class="full-width" fill @click="">Sync</f7-button>
+        </f7-toolbar>
     </f7-tab>
 
+
     <f7-tab id="projectTab2">
-    <f7-block>
       <f7-list>
-        <f7-list-group v-for="project in projects" v-bind:key="project.ID">
-      <f7-list-item
-        checkbox 
-        :link="'/projects/' + project.ID" 
-        :title="'Project ' + project.Name"
-      ></f7-list-item>
-    </f7-list-group>
+        <f7-list-group ref="c2" v-for="project in projects" v-bind:key="project.ID">
+
+          <f7-list-item  v-if="project.mine" :param=project :title="'Project ' + project.Name"></f7-list-item>
+          <f7-list-item v-else v-on:change="handleAllProjectsClick($event, project)" checkbox :title="'Project ' + project.Name"></f7-list-item>
+
+        </f7-list-group>
       </f7-list>
-    </f7-block>
+
+      <f7-toolbar bottom class="custom">
+          <f7-button class="full-width" fill @click="importSelectedProjects">import</f7-button>
+      </f7-toolbar>
+      
     </f7-tab>
+
+
+
+
+
+
+
+
 
   </f7-tabs>
 </f7-page>
@@ -48,6 +72,7 @@
 
 <script>
 export default {
+
 	beforeCreate () {
     this.$store.dispatch('fetchProjects')
 	},
@@ -60,6 +85,31 @@ export default {
 	    return this.$store.state.projects.projects;
 	  },
 	},
+
+  ready: function () {
+    console.log( "here are my comp2 refs:", this.$refs );
+  },
+
+  methods: {
+    importSelectedProjects(){
+      //need to find wich are selected, state?
+      this.$store.commit('toggleImportedProject', [project]);
+    },
+
+
+    handleMinesProjectsClick(e, project){
+      if(e.target.className === 'icon icon-form-checkbox'){
+        this.$store.commit('toggleImportedProject', [project]);
+        e.stopPropagation();
+      } else {
+        //setCurrent project
+      }
+    },
+
+    handleAllProjectsClick(e, project){
+      this.$store.commit('toggleImportedProject', [project]);
+    },
+  }
 }
 </script>
 

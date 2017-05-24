@@ -90,10 +90,11 @@ export default {
     submit(){
       this.$store.dispatch('saveObservation', this.$data);
     },
+
     onActionClick(e){
       console.log(e);
-
     },
+
     onChange (event){
       console.log('change');
     }

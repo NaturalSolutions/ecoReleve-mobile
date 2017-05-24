@@ -3,68 +3,83 @@ import { erdApi } from '../../main.js'
 
 let _projects = [
   {
-    id: 1,
-    name: 'first',
-    creator: 1²
-  }, 
-  {
-    id: 2,
-    name: 'second',
-    creator: 2
-  }
+    ID: 1,
+    Name: 'first',
+    mine: true,
+    observations: [],
+    status: ''
+  },{
+    ID: 2,
+    Name: 'second',
+    mine: true,
+    observations: [],
+    status: ''
+  },{
+    ID: 3,
+    Name: 'third',
+    mine: false,
+    observations: [],
+    status: '',
+  },
+
 ]
 
 
 export default {
 
   state: {
-    projects: [
+    projects: _projects,
+    currentProject: 0,
 
-    ],
-    currentProject: 0
   },
 
   getters: {
     //filter by project
     myProjects: (state, getters, rootState ) => {
-      return state.projects.filter(project => (project.creator == 1))
+      return state.projects.filter(project => (project.mine))
     },
 
-  },
-
-  mutations: {
-    setProjects (state, value) {
-      state.projects = value
-    },
-
-    addProject (state, value) {
-      state.projects.push(value);
-    },
-
-    deleteProject (state, value) {
-      
-    },
-
-    setCurrentProject (state, value) {
-      state.currentProject = value
+    allProjects: (state, getters, rootState) => {
+      return state.projects.filter(project => (project.mine === false))
     }
   },
 
-  actions: {
-    //will certainly be saveProject
-    addProject ({ commit }, options) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          commit('addProject',
-              {
-                ID: 4,
-                Name: 'new project'
-              },
-          )
-          resolve()
-        }, 1000)
-      })
+
+
+  mutations: {
+    setProjects (state, payload) {
+      state.projects = payload
     },
+
+    addProject (state, payload) {
+      state.projects.push(payload);
+    },
+
+
+    setCurrentProject (state, payload) {
+      state.currentProject = payload
+    },
+
+
+    toggleImportedProject(state, payload) {
+      let projects = payload;
+      let project;
+
+      for (var i = 0; i < projects.length; i++) {
+
+        project = state.projects.find((project) => {
+          return project.ID === projects[i].ID;
+        });
+
+        //console.log(!undefined);
+
+        project.mine = !project.mine;
+
+      }
+    },
+  },
+
+  actions: {
 
     //url -> projects
     fetchProjects ({ commit }, options) {
@@ -73,9 +88,7 @@ export default {
 
       })
       .then(function (response) {
-        console.log(response);
-        console.log(response.data[1]);
-        commit('setProjects', response.data[1])
+        //commit('setProjects', response.data[1])
       })
       .catch(function (error) {
         console.log(error);
