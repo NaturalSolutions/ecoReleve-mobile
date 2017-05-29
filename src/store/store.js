@@ -7,6 +7,7 @@ import user from './modules/user'
 import projects from './modules/store.projects'
 import project from './modules/store.project'
 import observation from './modules/store.observation'
+import protocols from './modules/store.protocols'
 
 Vue.use(Vuex)
 
@@ -19,7 +20,8 @@ export default new Vuex.Store({
   	user,
   	projects,
   	project,
-  	observation
+  	observation,
+    protocols
   },
   // strict: debug,
   // plugins: debug ? [createLogger()] : []

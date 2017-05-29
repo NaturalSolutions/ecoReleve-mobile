@@ -19,44 +19,47 @@
       <f7-list form>
     
       
-  <f7-list-item v-for="(field, index) in trace" v-bind:key="field.id">
+      <f7-list-item v-for="(field, index) in trace" v-bind:key="field.id">
 
-    <custom-input v-if="field.type === 'number'" :param=field>
-    </custom-input>
-  </f7-list-item>
+        <custom-input v-if="field.type === 'number'" :param=field>
+        </custom-input>
+      </f7-list-item>
 
-  </f7-list>
+      </f7-list>
 
-      <f7-fab-speed-dial>
-        <f7-fab-actions>
-          <f7-fab-action color="pink" @click="onActionClick">A</f7-fab-action>
-          <f7-fab-action color="orange" @click="onActionClick">B</f7-fab-action>
-          <f7-fab-action color="green" @click="onActionClick">C</f7-fab-action>
-        </f7-fab-actions>
-        <f7-fab>
-          <f7-icon icon="icon-plus"></f7-icon>
-          <f7-icon icon="icon-close"></f7-icon>
-        </f7-fab>
-      </f7-fab-speed-dial>
+
 
       <f7-toolbar bottom class="custom">
-          <f7-button class="full-width" fill @click="submit">Next</f7-button>
+          <f7-button class="full-width" fill @click="next">Next</f7-button>
       </f7-toolbar>
 
 
     </f7-tab>
 
     <f7-tab id="obsTab2">
-
+      <f7-toolbar bottom class="custom">
+          <f7-button class="full-width">Finish</f7-button>
+      </f7-toolbar>
     </f7-tab>
 
     <f7-tab id="obsTab3">
-      <f7-block>
-
-      </f7-block>
+      <f7-toolbar bottom class="custom">
+          <f7-button class="full-width">Finish</f7-button>
+      </f7-toolbar>
     </f7-tab>
 
   </f7-tabs>
+  <f7-fab-speed-dial>
+    <f7-fab-actions>
+      <f7-fab-action color="pink" @click="onActionClick">A</f7-fab-action>
+      <f7-fab-action color="orange" @click="onActionClick">B</f7-fab-action>
+      <f7-fab-action color="green" @click="onActionClick">C</f7-fab-action>
+    </f7-fab-actions>
+    <f7-fab>
+      <f7-icon icon="icon-plus"></f7-icon>
+      <f7-icon icon="icon-close"></f7-icon>
+    </f7-fab>
+  </f7-fab-speed-dial>
 </f7-page>
 </template>
 
@@ -66,6 +69,10 @@ import _ from 'lodash'
 export default {
 
   //'cause we can't bind vuex with dynamic v-models
+  beforeCreate () {
+    // mostly for development
+    this.$store.dispatch('scopeCurrentObservation', this.$route.params)
+  },
 
   data: function(){
     return {
@@ -77,27 +84,18 @@ export default {
     'custom-input': CustomInput
   },
 
-  beforeCreate () {
-    let payload = { id: parseInt(this.$route.params.id) }
-    this.$store.dispatch('setInitialState', payload)
-    .then(() => {
-      this.trace = _.cloneDeep(this.$store.state.observation.trace)
-    });
-  },
-
 
   methods: {
-    submit(){
-      this.$store.dispatch('saveObservation', this.$data);
+    next(){
+      //required quick fix
+      console.log(this.$f7.showTab);
+      this.$f7.showTab('#obsTab2', '#obsTab2', false, true);
     },
 
     onActionClick(e){
       console.log(e);
     },
 
-    onChange (event){
-      console.log('change');
-    }
   }
 }
 </script>

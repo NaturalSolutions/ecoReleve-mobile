@@ -5,7 +5,7 @@ let _project = {
     observations: [
       {
         id: 1,
-        name: 'observation name',
+        name: 'AJGKDJGIVJ',
       },
     ], 
     stations: [

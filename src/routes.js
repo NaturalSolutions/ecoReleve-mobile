@@ -11,7 +11,12 @@ export default [
   },
 
   {
-    path: '/observation/:id/',
+    path: '/protocols/',
+    component: require('./assets/vue/pages/protocols.vue'),
+  },
+
+  {
+    path: '/observation/:timestamp/',
     component: require('./assets/vue/pages/observation.vue'),
   },
 

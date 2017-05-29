@@ -29,6 +29,11 @@ let _obs = {
       value: "du texte"
     }
   ],
+
+
+  currentObservation: {
+
+  }
 };
 
 export default {
@@ -40,25 +45,27 @@ export default {
   },
 
   mutations: {
-    setState (state, value) {
-      state = Object.assign(state, value);
+    scopeCurrentObservation (state, payload) {
+      state.currentObservation = payload;
     },
     
   },
 
   actions: {
     //(prefer fetch again)
-    setInitialState ({ commit, rootState }, options) {
-      return new Promise((resolve, reject) => {
-          setTimeout(()=>{
-            commit('setState', _obs)
-            resolve()
-          }, 1000)
-      })
-    },
+    scopeCurrentObservation ({ commit, rootState }, options) {
+      if(!rootState.projects.currentProject){
+        commit('scopeCurrentProject', rootState.projects.projects[0])
+      }
 
-    saveObservation({commit, rootstate}, options){
-      //launch xhr here (mutate the store on success)
-    }
+      let observation = rootState.project.currentProject.observations.find((observation) => {
+        return observation.timestamp === parseInt(options.timestamp)
+      });
+      if(!observation){
+        observation = { timestamp : parseInt(options.timestamp) }
+      }
+
+      commit('scopeCurrentObservation', observation)
+    },
   }
 }

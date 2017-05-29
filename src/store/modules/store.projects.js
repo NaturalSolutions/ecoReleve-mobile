@@ -44,7 +44,6 @@ export default {
 
   state: {
     projects: _projects,
-    currentProject: {},
   },
 
   getters: {

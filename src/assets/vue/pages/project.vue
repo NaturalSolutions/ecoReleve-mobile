@@ -12,24 +12,35 @@
     </f7-subnavbar>
   </f7-navbar>
 
-  <f7-tabs>
+  <f7-tabs class="full-height">
   
+
+
     <f7-tab id="tab1" active>
-        <f7-block>
-          <f7-list>
-            <f7-list-group v-for="observation in observations" v-bind:key="observation.id">
-    	     		<f7-list-item
-    	        :link="'/observation/' + observation.id" 
-    	        :title="'observation ' + observation.name"
-    	      ></f7-list-item>
-        		</f7-list-group>
-          </f7-list>
-        </f7-block>
+      <f7-list>
+        <f7-list-group v-for="observation in observations" v-bind:key="observation.id">
+	     		<f7-list-item
+	        :link="'/observation/' + observation.id" 
+	        :title="'observation ' + observation.name"
+	      ></f7-list-item>
+    		</f7-list-group>
+      </f7-list>
+
+      <f7-toolbar bottom class="custom">
+          
+          <f7-link class="full-width" href="/protocols/">Add an observation
+          </f7-link>
+      </f7-toolbar>
+
     </f7-tab>
 
-    <f7-tab id="tab2" @tab:show="onTabShow">
+
+
+    <f7-tab id="tab2" class="full-height" @tab:show="onTabShow">
 	      <div id="map"></div>
     </f7-tab>
+
+
 
   </f7-tabs>
 </f7-page>
@@ -41,7 +52,6 @@ import Leaflet from 'leaflet'
 export default {
 
 	beforeCreate () {
-		// mostly for development
 	  this.$store.dispatch('scopeCurrentProject', this.$route.params)
 	},
 
@@ -78,5 +88,9 @@ export default {
 		min-height: 400px;
 		height: 100%;
 		width: 100%;
+	}
+
+	.full-height{
+		height: 100%;
 	}
 </style>
