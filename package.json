@@ -49,6 +49,7 @@
     "install": "^0.8.8",
     "jssha": "^2.2.0",
     "leaflet": "^1.0.3",
+    "material-design-icons": "^3.0.1",
     "vue": "^2.2.6",
     "vue-cookie": "^1.1.4",
     "vue-i18next": "^0.9.0",

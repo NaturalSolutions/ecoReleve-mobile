@@ -16,28 +16,35 @@
 
 
 
-
-
-
-
     <f7-tab id="projectTab1" active>
 
         <f7-list>
           <f7-list-group  v-for="project in myProjects" v-bind:key="project.ID">
 
-            <f7-list-item
-              v-on:click="handleMinesProjectsClick($event, project)"
-              checkbox
-              :link="'/projects/' + project.ID" 
-              :title="'Project ' + project.Name"
-              value="project.ID"
-            ></f7-list-item>
+            <li v-on:click="handleMinesProjectsClick($event, project)">
+              <a :href="'/projects/' + project.ID" class="item-link">
+                <label class="item-content label-checkbox">
+                  <input :href="'/projects/' + project.ID" type="checkbox">
+                  <div class="item-media">
+                    <i v-on:click="" class="icon icon-form-checkbox"></i>
+                    <i v-if="project.status == 'undersync'" class="material-icons rotate">{{ icons[project.status] }}</i>
+                    <i v-else class="material-icons">{{ icons[project.status] }}</i>
+                    
+                  </div>
+                  <div class="item-inner">
+                  <div class="item-title">{{ project.Name }}</div>
+                  <!-- <div class="item-after"><span class="badge"></span></div> -->
+                  </div>
+                </label>
+              </a>
+            </li>
 
           </f7-list-group>
         </f7-list>
 
         <f7-toolbar bottom class="custom">
-            <f7-button class="full-width" fill @click="">Sync</f7-button>
+            <f7-button class="full-width" fill @click="removeSelectedProjects">Remove</f7-button>
+            <f7-button class="full-width" fill @click="synchronizeSelectedProjects">Synchronize</f7-button>
         </f7-toolbar>
     </f7-tab>
 
@@ -46,20 +53,17 @@
       <f7-list>
         <f7-list-group ref="c2" v-for="project in projects" v-bind:key="project.ID">
 
-          <f7-list-item  v-if="project.mine" :param=project :title="'Project ' + project.Name"></f7-list-item>
-          <f7-list-item v-else v-on:change="handleAllProjectsClick($event, project)" checkbox :title="'Project ' + project.Name"></f7-list-item>
+          <f7-list-item  v-if="project.imported" :param=project :title="project.Name"></f7-list-item>
+          <f7-list-item v-else v-on:change="handleAllProjectsClick($event, project)" checkbox :title="project.Name"></f7-list-item>
 
         </f7-list-group>
       </f7-list>
 
       <f7-toolbar bottom class="custom">
-          <f7-button class="full-width" fill @click="importSelectedProjects">import</f7-button>
+          <f7-button class="full-width" fill @click="importSelectedProjects">Import</f7-button>
       </f7-toolbar>
       
     </f7-tab>
-
-
-
 
 
 
@@ -77,37 +81,80 @@ export default {
     this.$store.dispatch('fetchProjects')
 	},
 
+  //I don't want checkboxes state in localstorage
+  data: function(){
+    return {
+      selectedToImport: [],
+      selectedImported: [],
+      icons: {
+        'undersync': 'sync',
+        'edited': 'clear',
+        'sync': 'done',
+        '': 'done'
+      }
+    }
+  },
+
+
 	computed: {
-	  myProjects() {
-	    return this.$store.getters.myProjects;
-	  },
+    myProjects() {
+      return this.$store.getters.myProjects;
+    },
 	  projects() {
 	    return this.$store.state.projects.projects;
 	  },
+
 	},
 
-  ready: function () {
-    console.log( "here are my comp2 refs:", this.$refs );
-  },
 
   methods: {
     importSelectedProjects(){
-      //need to find wich are selected, state?
-      this.$store.commit('toggleImportedProject', [project]);
+      for (var i = 0; i < this.selectedToImport.length; i++) {
+        this.$store.dispatch('importProject', this.selectedToImport[i]);
+      }
+      this.selectedToImport = [];
+    },
+
+    
+    synchronizeSelectedProjects(){
+      for (var i = 0; i < this.selectedImported.length; i++) {
+        this.$store.dispatch('synchronizeProject', this.selectedImported[i]);
+      }
+      // this.selectedImported = [];
+    },
+
+    removeSelectedProjects(){
+      for (var i = 0; i < this.selectedImported.length; i++) {
+        this.$store.commit('removeProject', this.selectedImported[i]);
+      }
+      // this.selectedImported = [];
     },
 
 
+    //handle checkboxes
     handleMinesProjectsClick(e, project){
       if(e.target.className === 'icon icon-form-checkbox'){
-        this.$store.commit('toggleImportedProject', [project]);
+        let index = this.selectedImported.indexOf(project)
+        if (index > -1) {
+          this.selectedImported.splice(index, 1);
+        } else {
+          this.selectedImported.push(project);
+        }
         e.stopPropagation();
       } else {
-        //setCurrent project
+        //setCurrent project && let redirection
+        this.$store.commit('setCurrentProject', project);
+        
       }
     },
 
     handleAllProjectsClick(e, project){
-      this.$store.commit('toggleImportedProject', [project]);
+      let index = this.selectedToImport.indexOf(project)
+      if (index > -1) {
+        this.selectedToImport.splice(index, 1);
+      } else {
+        this.selectedToImport.push(project); 
+      }
     },
   }
 }
@@ -115,5 +162,16 @@ export default {
 
 <style>
 	
+.rotate {
+    animation-name: rotate; 
+    animation-duration: 2s; 
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes rotate {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
 
 </style>

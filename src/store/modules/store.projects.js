@@ -1,52 +1,60 @@
 import { erdApi } from '../../main.js'
 
-
 let _projects = [
   {
     ID: 1,
     Name: 'first',
-    mine: true,
+    imported: true,
     observations: [],
-    status: ''
+    status: 'sync'
   },{
     ID: 2,
     Name: 'second',
-    mine: true,
+    imported: true,
     observations: [],
-    status: ''
+    status: 'edited'
   },{
     ID: 3,
     Name: 'third',
-    mine: false,
+    imported: false,
     observations: [],
-    status: '',
+    status: 'sync',
+  },  {
+    ID: 4,
+    Name: 'fourth',
+    imported: true,
+    observations: [],
+    status: 'sync'
+  },{
+    ID: 5,
+    Name: 'fifth',
+    imported: true,
+    observations: [],
+    status: 'edited'
+  },{
+    ID: 6,
+    Name: 'sixth',
+    imported: true,
+    observations: [],
+    status: 'sync',
   },
-
 ]
-
 
 export default {
 
   state: {
     projects: _projects,
-    currentProject: 0,
-
+    currentProject: {},
   },
 
   getters: {
-    //filter by project
     myProjects: (state, getters, rootState ) => {
-      return state.projects.filter(project => (project.mine))
+      return state.projects.filter(project => (project.imported))
     },
-
-    allProjects: (state, getters, rootState) => {
-      return state.projects.filter(project => (project.mine === false))
-    }
   },
 
-
-
   mutations: {
+
     setProjects (state, payload) {
       state.projects = payload
     },
@@ -61,27 +69,50 @@ export default {
     },
 
 
-    toggleImportedProject(state, payload) {
-      let projects = payload;
-      let project;
-
-      for (var i = 0; i < projects.length; i++) {
-
-        project = state.projects.find((project) => {
-          return project.ID === projects[i].ID;
-        });
-
-        //console.log(!undefined);
-
-        project.mine = !project.mine;
-
-      }
+    changeCurrentProject (state, payload) {
+      state.currentProject.Name = payload
     },
+
+    //imported, draft
+    setProject(state, payload) {
+      let project = state.projects.find((project) => {
+        return project.ID === payload.ID
+      });
+
+      //project.properties = payload
+      project.imported = true
+      project.status = 'sync'
+    },
+
+    setUnderSync(state, payload) {
+      let project = state.projects.find((project) => {
+        return project.ID === payload.ID
+      });
+
+      project.status = 'undersync'
+    },
+    
+    setSync(state, payload) {
+      let project = state.projects.find((project) => {
+        return project.ID === payload.ID
+      });
+      project.status = 'sync'
+    },
+    
+    //remove obs & props in local in local, keep it in projects and change imported
+    removeProject(state, payload) {
+      let project = state.projects.find((project) => {
+        return project.ID === payload.ID
+      })
+      
+      delete project.properties
+      delete project.observations
+      project.imported = false
+    },
+    
   },
 
   actions: {
-
-    //url -> projects
     fetchProjects ({ commit }, options) {
 
       return erdApi.get('projects/?criteria=%5B%5D&page=1&per_page=200&offset=0&order_by=%5B%5D&typeObj=1', {
@@ -93,6 +124,45 @@ export default {
       .catch(function (error) {
         console.log(error);
       });
-    }
+    },
+
+    //import map tiles etc (not obs)
+    importProject({ commit }, options) {
+      commit('setProject', options)
+      return;
+
+      return erdApi.get('projects/' + options.ID, {
+        
+      })
+      .then(function (response) {
+        commit('setProject', response.data[1])
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+
+    //import map tiles etc (not obs)
+    synchronizeProject({ commit }, options) {
+
+      //update status to under sync (commit)
+      commit('setUnderSync', options)
+
+      setTimeout(() => {
+        commit('setSync', options)
+      }, 1000)
+      return;
+
+      return erdApi.post('projects/' + options.ID, {
+        
+      })
+      .then(function (response) {
+        commit('setSync', response.data[1])
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+
   }
 }

@@ -40,12 +40,10 @@ import Leaflet from 'leaflet'
 
 export default {
 
-
 	beforeCreate () {
-	  this.$store.commit('setCurrentProject', this.$route.params.id)
-	},
-
-	mounted () {
+	  // this.$store.commit('setCurrentProject', this.$route.params.id)
+	  this.$store.dispatch('setInitialState')
+	  this.$store.commit('changeName', 'wiii')
 	},
 
 	computed: {

@@ -19,29 +19,29 @@ let _project = {
   ],
 }
 
-
 export default {
 
-  state: _project,
+  state: {},
 
   getters: {
   },
 
   mutations: {
-    setProject (state, value) {
-      state = value;
+    setInitialState (state, payload) {
+      console.log(payload);
+      state = Object.assign(state, payload);
     },
+
+    changeName (state , payload) {
+      state.Name = payload
+    }
   },
 
   actions: {
-    //url -> projects/:id
-    fetchProject ({ commit }, options) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          commit('setProjects', _projet)
-          resolve()
-        }, 1000)
-      })
+    setInitialState ({ state, commit, rootState }) {
+      console.log(rootState);
+      commit('setInitialState', rootState.projects.currentProject)
     }
   }
+
 }
