@@ -127,7 +127,7 @@ export default {
       for (var i = 0; i < this.selectedImported.length; i++) {
         this.$store.commit('removeProject', this.selectedImported[i]);
       }
-      // this.selectedImported = [];
+      this.selectedImported = [];
     },
 
 
@@ -143,8 +143,7 @@ export default {
         e.stopPropagation();
       } else {
         //setCurrent project && let redirection
-        this.$store.commit('setCurrentProject', project);
-        
+        this.$store.commit('scopeCurrentProject', project);
       }
     },
 

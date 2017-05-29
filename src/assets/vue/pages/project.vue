@@ -41,17 +41,16 @@ import Leaflet from 'leaflet'
 export default {
 
 	beforeCreate () {
-	  // this.$store.commit('setCurrentProject', this.$route.params.id)
-	  this.$store.dispatch('setInitialState')
-	  this.$store.commit('changeName', 'wiii')
+		// mostly for development
+	  this.$store.dispatch('scopeCurrentProject', this.$route.params)
 	},
 
 	computed: {
 	  observations() {
-	    return this.$store.state.project.observations;
+	    return this.$store.state.project.currentProject.observations;
 	  },
 	  stations() {
-	    return this.$store.state.project.stations;
+	    return this.$store.state.project.currentProject.stations;
 	  },
 	},
 

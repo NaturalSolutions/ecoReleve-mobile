@@ -1,47 +1,48 @@
 import axios from 'axios'
 
 let _project = {
-  observations: [
-    {
-      id: 1,
-      name: 'observation name',
-    },
-  ], 
-  stations: [
-    {
-      id: 1,
-      name: 'station name',
-    },
-    {
-      id: 2,
-      name: 'station name',
-    }
-  ],
+  currentProject: {
+    observations: [
+      {
+        id: 1,
+        name: 'observation name',
+      },
+    ], 
+    stations: [
+      {
+        id: 1,
+        name: 'station name',
+      },
+      {
+        id: 2,
+        name: 'station name',
+      }
+    ],
+  }
 }
 
 export default {
 
-  state: {},
+  state: _project,
 
   getters: {
   },
 
   mutations: {
-    setInitialState (state, payload) {
-      console.log(payload);
-      state = Object.assign(state, payload);
+    scopeCurrentProject (state, payload) {
+      state.currentProject = payload;
     },
 
-    changeName (state , payload) {
-      state.Name = payload
-    }
   },
 
   actions: {
-    setInitialState ({ state, commit, rootState }) {
-      console.log(rootState);
-      commit('setInitialState', rootState.projects.currentProject)
-    }
-  }
+    scopeCurrentProject ({ state, commit, rootState }, options) {
+      let project = rootState.projects.projects.find((project) => {
+        return project.ID === parseInt(options.id)
+      });
+      commit('scopeCurrentProject', project)
+    },
+
+  },
 
 }

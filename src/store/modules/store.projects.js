@@ -63,16 +63,6 @@ export default {
       state.projects.push(payload);
     },
 
-
-    setCurrentProject (state, payload) {
-      state.currentProject = payload
-    },
-
-
-    changeCurrentProject (state, payload) {
-      state.currentProject.Name = payload
-    },
-
     //imported, draft
     setProject(state, payload) {
       let project = state.projects.find((project) => {
