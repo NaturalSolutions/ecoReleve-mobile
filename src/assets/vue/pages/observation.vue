@@ -16,37 +16,54 @@
   <f7-tabs>
   
     <f7-tab id="obsTab1" active>
+
       <f7-list form>
-    
-      
-      <f7-list-item v-for="(field, index) in trace" v-bind:key="field.id">
-
-        <custom-input v-if="field.type === 'number'" :param=field>
-        </custom-input>
-      </f7-list-item>
-
+        <f7-list-item v-for="(field, index) in trace" v-bind:key="field.name">
+          <custom-input :param=field>
+          </custom-input>
+        </f7-list-item>
       </f7-list>
-
-
 
       <f7-toolbar bottom class="custom">
           <f7-button class="full-width" fill @click="next">Next</f7-button>
       </f7-toolbar>
 
-
     </f7-tab>
+
+
+
+
 
     <f7-tab id="obsTab2">
+      <f7-list form>
+        <f7-list-item v-for="(field, index) in required" v-bind:key="field.name">
+          <custom-input :param=field>
+          </custom-input>
+        </f7-list-item>
+      </f7-list>
+
       <f7-toolbar bottom class="custom">
           <f7-button class="full-width">Finish</f7-button>
       </f7-toolbar>
     </f7-tab>
 
+
+
+
+
+
     <f7-tab id="obsTab3">
+      <f7-list form>
+        <f7-list-item v-for="(field, index) in optional" v-bind:key="field.name">
+          <custom-input v-if="field.type === 'number'" :param=field>
+          </custom-input>
+        </f7-list-item>
+      </f7-list>
       <f7-toolbar bottom class="custom">
           <f7-button class="full-width">Finish</f7-button>
       </f7-toolbar>
     </f7-tab>
+
 
   </f7-tabs>
   <f7-fab-speed-dial>
@@ -74,10 +91,17 @@ export default {
     this.$store.dispatch('scopeCurrentObservation', this.$route.params)
   },
 
-  data: function(){
-    return {
-      trace: []
-    }
+
+  computed: {
+    trace() {
+      return this.$store.state.protocols.currentProtocol.trace;
+    },    
+    required() {
+      return this.$store.state.protocols.currentProtocol.required;
+    },
+    optional() {
+      return this.$store.state.protocols.currentProtocol.optional;
+    },
   },
 
   components: {

@@ -20,8 +20,8 @@
       <f7-list>
         <f7-list-group v-for="observation in observations" v-bind:key="observation.id">
 	     		<f7-list-item
-	        :link="'/observation/' + observation.id" 
-	        :title="'observation ' + observation.name"
+	        :link="'/observation/' + observation.timestamp" 
+	        :title="'observation ' + observation.timestamp"
 	      ></f7-list-item>
     		</f7-list-group>
       </f7-list>

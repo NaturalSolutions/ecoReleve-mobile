@@ -2,10 +2,9 @@
 	<div>
 		<f7-label>{{ param.label }}</f7-label>
 		<f7-input 
-			name="name" 
+			:name="param.name" 
 			:type=param.type
-			v-model=param.value
-			@keyup="onKeyup"
+			v-model=value
 			placeholder="Name"
 			v-bind:class="{ 'text-danger': hasError }"
 			>
@@ -22,6 +21,24 @@ export default {
 		}
 	},
 
+
+	// ...
+	computed: {
+	  value: {
+	    get () {
+	    	return this.$store.state.observation.currentObservation[this.param.name];
+	    },
+	    set (value) {
+	    	if(parseInt(this.value) != 1){
+	    		this.hasError = true
+	    	} else {
+	    		this.hasError = false
+	    	}
+	      this.$store.commit('updateValue', {key: this.param.name, value: value})
+	    }
+	  }
+	},
+
 	data: function(){
 		return{
 			hasError: false
@@ -31,15 +48,6 @@ export default {
 	methods: {
 		//could certainly be in a watcher
 		//set global variable to prevent route change
-		onKeyup(e){
-			if(this.param.value != 'motif'){
-				this.hasError = true
-			} else {
-				this.hasError = false
-			}
-			//check value && errors
-			
-		}
 	}
 }
 </script>
