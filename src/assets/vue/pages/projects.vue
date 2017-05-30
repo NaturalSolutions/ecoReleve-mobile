@@ -24,16 +24,16 @@
             <li v-on:click="handleMinesProjectsClick($event, project)">
               <a :href="'/projects/' + project.ID" class="item-link">
                 <label class="item-content label-checkbox">
-                  <input :href="'/projects/' + project.ID" type="checkbox">
+                  <input type="checkbox">
                   <div class="item-media">
-                    <i v-on:click="" class="icon icon-form-checkbox"></i>
+                    <i class="icon icon-form-checkbox"></i>
                     <i v-if="project.status == 'undersync'" class="material-icons rotate">{{ icons[project.status] }}</i>
                     <i v-else class="material-icons">{{ icons[project.status] }}</i>
-                    
                   </div>
                   <div class="item-inner">
                   <div class="item-title">{{ project.Name }}</div>
-                  <!-- <div class="item-after"><span class="badge"></span></div> -->
+                  <div v-if="project.observations" class="item-after"><span class="badge">{{ project.observations.length }}</span></div>
+                  <div v-else class="item-after"><span class="badge">0</span></div>
                   </div>
                 </label>
               </a>
@@ -53,7 +53,7 @@
       <f7-list>
         <f7-list-group ref="c2" v-for="project in projects" v-bind:key="project.ID">
 
-          <f7-list-item  v-if="project.imported" :param=project :title="project.Name"></f7-list-item>
+          <f7-list-item  v-if="project.imported" :title="project.Name"></f7-list-item>
           <f7-list-item v-else v-on:change="handleAllProjectsClick($event, project)" checkbox :title="project.Name"></f7-list-item>
 
         </f7-list-group>

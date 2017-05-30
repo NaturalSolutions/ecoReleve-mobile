@@ -14,20 +14,20 @@ let _protocols = {
         {
           name: "field_2",
           label: "field 2",
-          type: "number",
+          type: "text",
         }
       ],
       required: [
         {
           name: "field_3",
-          label: "field 1",
-          type: "number",
+          label: "field 3",
+          type: "text",
         }
       ],
       optional: [
         {
           name: 'field_4',
-          label: "field 1",
+          label: "field 4",
           type: "text",
         }
       ],
@@ -39,38 +39,6 @@ let _protocols = {
       name: 'C'
     },
   ],
-
-  currentProtocol: {
-    id: 1,
-    name: 'observation name',
-    trace: [
-      {
-        name: "field_1",
-        label: "field 1",
-        type: "text",
-      },
-      {
-        name: "field_2",
-        label: "field 2",
-        type: "number",
-      }
-    ],
-    required: [
-      {
-        name: "field_3",
-        label: "field 1",
-        type: "number",
-      }
-    ],
-    optional: [
-      {
-        name: 'field_4',
-        label: "field 1",
-        type: "text",
-      }
-    ],
-
-  },
 }
 
 export default {

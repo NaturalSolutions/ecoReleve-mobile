@@ -29,11 +29,11 @@ export default {
 	    	return this.$store.state.observation.currentObservation[this.param.name];
 	    },
 	    set (value) {
-	    	if(parseInt(this.value) != 1){
-	    		this.hasError = true
-	    	} else {
-	    		this.hasError = false
-	    	}
+	    	// if(parseInt(this.value) != 1){
+	    	// 	this.hasError = true
+	    	// } else {
+	    	// 	this.hasError = false
+	    	// }
 	      this.$store.commit('updateValue', {key: this.param.name, value: value})
 	    }
 	  }

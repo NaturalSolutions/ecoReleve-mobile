@@ -14,14 +14,13 @@
 
   <f7-tabs class="full-height">
   
-
-
     <f7-tab id="tab1" active>
       <f7-list>
         <f7-list-group v-for="observation in observations" v-bind:key="observation.id">
 	     		<f7-list-item
 	        :link="'/observation/' + observation.timestamp" 
-	        :title="'observation ' + observation.timestamp"
+	        :title="'Observation n°' + observation.timestamp"
+	        :media="status[observation.finished]"
 	      ></f7-list-item>
     		</f7-list-group>
       </f7-list>
@@ -55,6 +54,17 @@ export default {
 	  this.$store.dispatch('scopeCurrentProject', this.$route.params)
 	},
 
+
+	data: function(){
+	  return {
+	    status: {
+	      true: 'finished',
+	      false: 'unfinished',
+	      undefined: 'unfinished',
+	    }
+	  }
+	},
+
 	computed: {
 	  observations() {
 	    return this.$store.state.project.currentProject.observations;
@@ -63,6 +73,8 @@ export default {
 	    return this.$store.state.project.currentProject.stations;
 	  },
 	},
+
+
 
 	methods: {
 		onTabShow (){
@@ -75,9 +87,7 @@ export default {
 			    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 			}).addTo(this.map);
 
-			L.marker([51.5, -0.09]).addTo(this.map)
-			    .bindPopup('customizable popup')
-			    .openPopup();
+			// L.marker([51.5, -0.09]).addTo(this.map)
 		}
 	}
 }

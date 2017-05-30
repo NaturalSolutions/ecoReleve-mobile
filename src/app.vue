@@ -13,8 +13,7 @@
           <f7-page>
             <f7-navbar :title="profile.firstName + ' ' + profile.lastName"></f7-navbar>
             <f7-list>
-              <f7-list-item link="#" title="Projects"></f7-list-item>
-              <f7-list-item link="#" title="Projects"></f7-list-item>
+              <f7-list-item link="#" title="Link"></f7-list-item>
             </f7-list>
           </f7-page>
         </f7-pages>

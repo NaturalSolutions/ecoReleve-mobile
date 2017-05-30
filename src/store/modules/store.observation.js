@@ -3,8 +3,8 @@ import Vue from 'vue'
 
 
 let _obs = {
-    field_2: 4,
-};
+  field_2: 4,
+}
 
 export default {
 
@@ -20,22 +20,37 @@ export default {
     },
 
     updateValue (state, payload) {
-
       state.currentObservation[payload.key] = payload.value;
     },
-    
+
+    finishCurrentObservation (state, payload) {
+      state.currentObservation.finished = true;
+    },
+
+    unfinishCurrentObservation (state, payload) {
+      state.currentObservation.finished = false;
+    },
+
   },
 
   actions: {
-    //(prefer fetch again)
+    
+    //weird & mutable, cf strict mode
     scopeCurrentObservation ({ commit, rootState }, options) {
-      if(!rootState.projects.currentProject){
+
+      if(!rootState.project.currentProject){
         commit('scopeCurrentProject', rootState.projects.projects[0])
       }
+      
+      let observation;
 
-      let observation = rootState.project.currentProject.observations.find((observation) => {
-        return observation.timestamp === parseInt(options.timestamp)
-      });
+      if(rootState.project.currentProject.observations) {
+        observation = rootState.project.currentProject.observations.find((observation) => {
+          return observation.timestamp === parseInt(options.timestamp)
+        });
+      } else {
+        rootState.project.currentProject.observations = []
+      }
 
       if(!observation){
         observation = { timestamp : parseInt(options.timestamp) }
@@ -43,6 +58,7 @@ export default {
       }
 
       commit('scopeCurrentObservation', observation)
+      commit('unfinishCurrentObservation')
     },
   }
 }

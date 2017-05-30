@@ -43,7 +43,7 @@
       </f7-list>
 
       <f7-toolbar bottom class="custom">
-          <f7-button class="full-width">Finish</f7-button>
+          <f7-button class="full-width" @click="finish">Finish</f7-button>
       </f7-toolbar>
     </f7-tab>
 
@@ -60,7 +60,7 @@
         </f7-list-item>
       </f7-list>
       <f7-toolbar bottom class="custom">
-          <f7-button class="full-width">Finish</f7-button>
+          <f7-button class="full-width" @click="finish">Finish</f7-button>
       </f7-toolbar>
     </f7-tab>
 
@@ -88,7 +88,7 @@ export default {
   //'cause we can't bind vuex with dynamic v-models
   beforeCreate () {
     // mostly for development
-    this.$store.dispatch('scopeCurrentObservation', this.$route.params)
+    this.$store.dispatch('scopeCurrentObservation', this.$route.params);
   },
 
 
@@ -102,6 +102,9 @@ export default {
     optional() {
       return this.$store.state.protocols.currentProtocol.optional;
     },
+    currentProjectId() {
+      return this.$store.state.project.currentProject.ID;
+    }
   },
 
   components: {
@@ -110,9 +113,14 @@ export default {
 
 
   methods: {
+    finish(){
+      this.$store.commit('finishCurrentObservation');
+      
+      this.$f7.mainView.router.back();
+    },
+
     next(){
       //required quick fix
-      console.log(this.$f7.showTab);
       this.$f7.showTab('#obsTab2', '#obsTab2', false, true);
     },
 
