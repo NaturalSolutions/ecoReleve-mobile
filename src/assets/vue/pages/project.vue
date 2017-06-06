@@ -1,6 +1,6 @@
 <template>
-<f7-page with-subnavbar>
-  <f7-navbar back-link="Back" title="Project" sliding>
+<f7-page name="project" with-subnavbar tabs no-swipeback>
+  <f7-navbar back-link="Back" title="Project" sliding >
 	  <f7-nav-right>
 	    <f7-link icon="icon-bars" open-panel="left"></f7-link>
 	  </f7-nav-right>
@@ -15,9 +15,11 @@
   <f7-tabs class="full-height">
   
     <f7-tab id="tab1" active>
+
+   
       <f7-list>
-        <f7-list-group v-for="observation in observations" v-bind:key="observation.id">
-	     		<f7-list-item
+        <f7-list-group v-for="observation in observations" v-bind:key="observation.timestamp">
+	     		<f7-list-item reload
 	        :link="'/observation/' + observation.timestamp" 
 	        :title="'Observation n°' + observation.timestamp"
 	        :media="status[observation.finished]"

@@ -1,5 +1,6 @@
 <template>
-<f7-page with-subnavbar>
+
+<f7-page name="observation" with-subnavbar tabs no-swipeback>
   <f7-navbar back-link="Back" title="Observation" sliding>
     <f7-nav-right>
       <f7-link icon="icon-bars" open-panel="left"></f7-link>
@@ -78,6 +79,7 @@
     </f7-fab>
   </f7-fab-speed-dial>
 </f7-page>
+
 </template>
 
 <script>
@@ -116,11 +118,13 @@ export default {
     finish(){
       this.$store.commit('finishCurrentObservation');
       
-      this.$f7.mainView.router.back();
+      // this.$f7.mainView.router.back();
+      this.$f7.mainView.router.load({url: '/projects/5/'});
     },
 
     next(){
       //required quick fix
+
       this.$f7.showTab('#obsTab2', '#obsTab2', false, true);
     },
 

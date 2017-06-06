@@ -103,6 +103,8 @@ portalApi.get('user')
   		swipePanel: 'left',
   		swipePanelOnlyClose: true,
   		preroute: function (view, options) {
+        // console.log(view);
+        // console.log(options);
   			//console.log(store);
   		  return true;
   		}

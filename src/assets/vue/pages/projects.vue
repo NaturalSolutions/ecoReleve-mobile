@@ -1,5 +1,5 @@
 <template>
-<f7-page with-subnavbar>
+<f7-page name="projects" with-subnavbar tabs>
   <f7-navbar title="Projects" sliding>
 	  <f7-nav-right>
 	    <f7-link icon="icon-bars" open-panel="left"></f7-link>
@@ -13,8 +13,6 @@
   </f7-navbar>
 
   <f7-tabs>
-
-
 
     <f7-tab id="projectTab1" active>
 

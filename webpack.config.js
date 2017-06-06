@@ -23,7 +23,8 @@ let config = function (env) {
 				'src': path.resolve(__dirname, 'src/'),
 				'assets': path.resolve(__dirname, 'src/assets/'),
 				'pages': path.resolve(__dirname, 'src/assets/vue/pages/'),
-				'components': path.resolve(__dirname, 'src/assets/vue/components/')
+				'components': path.resolve(__dirname, 'src/assets/vue/components/'),
+				'framework7-vue$': '../src/vendors/framework7-vue.js'
 			},
 		},
 		
