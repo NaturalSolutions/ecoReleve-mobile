@@ -20,7 +20,12 @@
 
       <f7-list form>
         <f7-list-item v-for="(field, index) in trace" v-bind:key="field.name">
-          <custom-input :param=field>
+
+
+          <custom-select v-if="field.type === 'select'" :param=field>
+          </custom-select>
+
+          <custom-input v-if="field.type === 'text'" :param=field>
           </custom-input>
         </f7-list-item>
       </f7-list>
@@ -84,33 +89,39 @@
 
 <script>
 import CustomInput from './../input.vue'
+import CustomSelect from './../input.select.vue'
 import _ from 'lodash'
 export default {
 
   //'cause we can't bind vuex with dynamic v-models
   beforeCreate () {
-    // mostly for development
-    this.$store.dispatch('scopeCurrentObservation', this.$route.params);
+    this.$store.commit('setCurrentProject', this.$route.params);
+    this.$store.dispatch('setCurrentObservation', this.$route.params);
   },
 
 
   computed: {
     trace() {
-      return this.$store.state.protocols.currentProtocol.trace;
+      return this.$store.state.protocols.current.trace;
     },    
     required() {
-      return this.$store.state.protocols.currentProtocol.required;
+      return this.$store.state.protocols.current.required;
     },
     optional() {
-      return this.$store.state.protocols.currentProtocol.optional;
+      return this.$store.state.protocols.current.optional;
     },
     currentProjectId() {
-      return this.$store.state.project.currentProject.ID;
-    }
+      return this.$store.state.projects.current.ID;
+    },
+
+    // disabled() {
+    //   return this.$store.state.observation.currentObservation.disabled;
+    // }
   },
 
   components: {
-    'custom-input': CustomInput
+    'custom-input': CustomInput,
+    'custom-select': CustomSelect
   },
 
 
@@ -119,12 +130,11 @@ export default {
       this.$store.commit('finishCurrentObservation');
       
       // this.$f7.mainView.router.back();
-      this.$f7.mainView.router.load({url: '/projects/5/'});
+      this.$f7.mainView.router.load({url: '/projects/' + this.currentProjectId});
     },
 
     next(){
-      //required quick fix
-
+      //requires quick fix
       this.$f7.showTab('#obsTab2', '#obsTab2', false, true);
     },
 

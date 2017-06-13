@@ -20,7 +20,7 @@
       <f7-list>
         <f7-list-group v-for="observation in observations" v-bind:key="observation.timestamp">
 	     		<f7-list-item reload
-	        :link="'/observation/' + observation.timestamp" 
+	        :link="'/projects/' + id + '/observations/' + observation.timestamp" 
 	        :title="'Observation n°' + observation.timestamp"
 	        :media="status[observation.finished]"
 	      ></f7-list-item>
@@ -35,13 +35,9 @@
 
     </f7-tab>
 
-
-
     <f7-tab id="tab2" class="full-height" @tab:show="onTabShow">
 	      <div id="map"></div>
     </f7-tab>
-
-
 
   </f7-tabs>
 </f7-page>
@@ -53,9 +49,8 @@ import Leaflet from 'leaflet'
 export default {
 
 	beforeCreate () {
-	  this.$store.dispatch('scopeCurrentProject', this.$route.params)
+	  this.$store.commit('setCurrentProject', this.$route.params)
 	},
-
 
 	data: function(){
 	  return {
@@ -69,13 +64,15 @@ export default {
 
 	computed: {
 	  observations() {
-	    return this.$store.state.project.currentProject.observations;
+	    return this.$store.state.projects.current.observations;
 	  },
 	  stations() {
-	    return this.$store.state.project.currentProject.stations;
+	    return this.$store.state.projects.current.stations;
 	  },
+	  id() {
+	  	return this.$store.state.projects.current.ID;
+	  }
 	},
-
 
 
 	methods: {
@@ -94,6 +91,7 @@ export default {
 	}
 }
 </script>
+
 
 <style>
 	#map{

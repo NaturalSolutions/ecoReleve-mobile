@@ -13,37 +13,14 @@ let _projects = [
     imported: true,
     observations: [],
     status: 'edited'
-  },{
-    ID: 3,
-    Name: 'third',
-    imported: false,
-    observations: [],
-    status: 'sync',
-  },  {
-    ID: 4,
-    Name: 'fourth',
-    imported: true,
-    observations: [],
-    status: 'sync'
-  },{
-    ID: 5,
-    Name: 'fifth',
-    imported: true,
-    observations: [],
-    status: 'edited'
-  },{
-    ID: 6,
-    Name: 'sixth',
-    imported: true,
-    observations: [],
-    status: 'sync',
-  },
+  }
 ]
 
 export default {
 
   state: {
     projects: _projects,
+    current: null
   },
 
   getters: {
@@ -63,7 +40,7 @@ export default {
     },
 
     //imported, draft
-    setProject(state, payload) {
+    importProject(state, payload) {
       let project = state.projects.find((project) => {
         return project.ID === payload.ID
       });
@@ -72,6 +49,9 @@ export default {
       project.imported = true
       project.status = 'sync'
     },
+
+
+
 
     setUnderSync(state, payload) {
       let project = state.projects.find((project) => {
@@ -98,7 +78,17 @@ export default {
       delete project.observations
       project.imported = false
     },
+
+
     
+    
+
+    setCurrentProject(state, payload) {
+      let project = state.projects.find((project) => {
+        return project.ID === parseInt(payload.id)
+      });
+      state.current = project;
+    }
   },
 
   actions: {
@@ -117,14 +107,14 @@ export default {
 
     //import map tiles etc (not obs)
     importProject({ commit }, options) {
-      commit('setProject', options)
+      commit('importProject', options)
       return;
 
       return erdApi.get('projects/' + options.ID, {
         
       })
       .then(function (response) {
-        commit('setProject', response.data[1])
+        commit('importProject', response.data[1])
       })
       .catch(function (error) {
         console.log(error);

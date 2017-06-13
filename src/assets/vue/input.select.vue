@@ -1,15 +1,11 @@
 <template>
 	<div>
 		<f7-label>{{ param.label }}</f7-label>
-		<f7-input 
-			:name="param.name" 
-			:type=param.type
-			v-model=value
-			placeholder="Name"
-			v-bind:class="{ 'text-danger': hasError }"
-			>
-			
-			</f7-input>
+		<select :name="param.name" v-model=value>
+		  <option v-for="(option, index) in param.options" v-bind:key="option.value">
+		  	{{ option.label }}
+		  </option>
+		</select>
 	</div>
 </template>
 
@@ -21,19 +17,12 @@ export default {
 		}
 	},
 
-
-
 	computed: {
 	  value: {
 	    get () {
 	    	return this.$store.state.observation.current.values[this.param.name];
 	    },
 	    set (value) {
-	    	// if(parseInt(this.value) != 1){
-	    	// 	this.hasError = true
-	    	// } else {
-	    	// 	this.hasError = false
-	    	// }
 	      this.$store.commit('updateValue', {key: this.param.name, value: value})
 	    }
 	  }

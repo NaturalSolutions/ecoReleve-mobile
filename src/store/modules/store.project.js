@@ -1,24 +1,6 @@
 import axios from 'axios'
 
 let _project = {
-  currentProject: {
-    observations: [
-      {
-        id: 1,
-        name: 'AJGKDJGIVJ',
-      },
-    ], 
-    stations: [
-      {
-        id: 1,
-        name: 'station name',
-      },
-      {
-        id: 2,
-        name: 'station name',
-      }
-    ],
-  }
 }
 
 export default {

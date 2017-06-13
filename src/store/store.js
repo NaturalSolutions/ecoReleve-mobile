@@ -19,7 +19,7 @@ export default new Vuex.Store({
   modules: {
   	user,
   	projects,
-  	project,
+  	// project,
   	observation,
     protocols
   },

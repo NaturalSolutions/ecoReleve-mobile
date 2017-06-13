@@ -32,15 +32,19 @@ export default {
 	  protocols() {
 	    return this.$store.state.protocols.protocols;
 	  },
+	  currentProjectId() {
+	    return this.$store.state.projects.current.ID;
+	  },
 	},
 
 	methods: {
 		selectProtocol(e, proto){
 			//generate timestamp
 			//redirect && set current proto
-			this.$store.commit('setCurrentProtocol', proto)
+			this.$store.commit('setCurrentProtocol', proto.id)
 			let timestamp = new Date().getTime();
-			this.$f7.mainView.router.load({url: '/observation/' + timestamp + '/'});
+			
+			this.$f7.mainView.router.load({url: '/projects/' + this.currentProjectId + '/observations/' + timestamp + '/'});
 		}
 	}
 }

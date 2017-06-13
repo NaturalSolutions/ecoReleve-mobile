@@ -4,6 +4,7 @@ import Vue from 'vue'
 
 let _obs = {
   field_2: 4,
+  protocolId: 1
 }
 
 export default {
@@ -15,50 +16,51 @@ export default {
   },
 
   mutations: {
-    scopeCurrentObservation (state, payload) {
-      state.currentObservation = payload;
+    setCurrentObservation (state, payload) {
+      state.current = payload;
     },
 
     updateValue (state, payload) {
-      state.currentObservation[payload.key] = payload.value;
+      state.current.values[payload.key] = payload.value;
     },
 
     finishCurrentObservation (state, payload) {
-      state.currentObservation.finished = true;
+      state.current.finished = true;
     },
 
     unfinishCurrentObservation (state, payload) {
-      state.currentObservation.finished = false;
+      state.current.finished = false;
     },
 
   },
 
   actions: {
     
-    //weird & mutable, cf strict mode
-    scopeCurrentObservation ({ commit, rootState }, options) {
+    setCurrentObservation ({ commit, rootState }, options) {
 
-      if(!rootState.project.currentProject){
-        commit('scopeCurrentProject', rootState.projects.projects[0])
-      }
-      
       let observation;
 
-      if(rootState.project.currentProject.observations) {
-        observation = rootState.project.currentProject.observations.find((observation) => {
+      if(rootState.projects.current.observations) {
+        observation = rootState.projects.current.observations.find((observation) => {
           return observation.timestamp === parseInt(options.timestamp)
         });
       } else {
-        rootState.project.currentProject.observations = []
+        rootState.projects.current.observations = []
       }
 
       if(!observation){
-        observation = { timestamp : parseInt(options.timestamp) }
-        rootState.project.currentProject.observations.push(observation)
+        observation = { 
+          timestamp : parseInt(options.timestamp),
+          protocolId: rootState.protocols.current.id,
+          values: {}
+        }
+        rootState.projects.current.observations.push(observation)
       }
 
-      commit('scopeCurrentObservation', observation)
-      commit('unfinishCurrentObservation')
+      commit('setCurrentProtocol', observation.protocolId)
+      commit('setCurrentObservation', observation)
     },
+
+
   }
 }

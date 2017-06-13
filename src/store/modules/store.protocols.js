@@ -11,25 +11,35 @@ let _protocols = {
           label: "field 1",
           type: "text",
         },
-        {
-          name: "field_2",
-          label: "field 2",
-          type: "text",
-        }
+        // {
+        //   name: "select",
+        //   label: "field 2",
+        //   type: "select",
+        //   options: [
+        //     {
+        //       value: 'female',
+        //       label: 'female'
+        //     },
+        //     {
+        //       value: 'male',
+        //       label: 'male'
+        //     }
+        //   ]
+        // }
       ],
       required: [
-        {
-          name: "field_3",
-          label: "field 3",
-          type: "text",
-        }
+        // {
+        //   name: "field_3",
+        //   label: "field 3",
+        //   type: "text",
+        // }
       ],
       optional: [
-        {
-          name: 'field_4',
-          label: "field 4",
-          type: "text",
-        }
+        // {
+        //   name: 'field_4',
+        //   label: "field 4",
+        //   type: "text",
+        // }
       ],
     },{
       id: 2,
@@ -39,6 +49,7 @@ let _protocols = {
       name: 'C'
     },
   ],
+  current: {}
 }
 
 export default {
@@ -46,18 +57,21 @@ export default {
   state: _protocols,
 
   getters: {
+
   },
 
   mutations: {
     setCurrentProtocol (state, payload) {
-      state.currentProtocol = payload
+      let proto = state.protocols.find((protocol) => {
+        return protocol.id === parseInt(payload)
+      });
+      state.current = proto
     },
 
     initProtocols (state, payload) {
-      state.protocols = payload
-      
+      state.protocols = payload      
       //refresh current proto?
-      state.currentProtocol = {}
+      state.current = {}
     }
   },
 

@@ -139,9 +139,6 @@ export default {
           this.selectedImported.push(project);
         }
         e.stopPropagation();
-      } else {
-        //setCurrent project && let redirection
-        this.$store.commit('scopeCurrentProject', project);
       }
     },
 
