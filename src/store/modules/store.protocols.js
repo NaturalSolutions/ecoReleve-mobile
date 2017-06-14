@@ -7,25 +7,16 @@ let _protocols = {
       name: 'A',
       trace: [
         {
-          name: "field_1",
-          label: "field 1",
-          type: "text",
+          name: "latitude",
+          label: "latitude",
+          type: "number",
+          disabled: true,
         },
-        // {
-        //   name: "select",
-        //   label: "field 2",
-        //   type: "select",
-        //   options: [
-        //     {
-        //       value: 'female',
-        //       label: 'female'
-        //     },
-        //     {
-        //       value: 'male',
-        //       label: 'male'
-        //     }
-        //   ]
-        // }
+        {
+          name: 'longitude',
+          label: "longitude",
+          type: "number",
+        },
       ],
       required: [
         // {

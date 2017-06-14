@@ -22,7 +22,7 @@
 	     		<f7-list-item reload
 	        :link="'/projects/' + id + '/observations/' + observation.timestamp" 
 	        :title="'Observation n°' + observation.timestamp"
-	        :media="status[observation.finished]"
+	        :media="observation.status"
 	      ></f7-list-item>
     		</f7-list-group>
       </f7-list>
@@ -50,17 +50,18 @@ export default {
 
 	beforeCreate () {
 	  this.$store.commit('setCurrentProject', this.$route.params)
+	  this.$store.dispatch('scopeStations')
 	},
 
-	data: function(){
-	  return {
-	    status: {
-	      true: 'finished',
-	      false: 'unfinished',
-	      undefined: 'unfinished',
-	    }
-	  }
-	},
+	// data: function(){
+	//   return {
+	//     status: {
+	//       true: 'finished',
+	//       false: 'unfinished',
+	//       undefined: 'unfinished',
+	//     }
+	//   }
+	// },
 
 	computed: {
 	  observations() {
@@ -86,8 +87,21 @@ export default {
 			    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 			}).addTo(this.map);
 
-			// L.marker([51.5, -0.09]).addTo(this.map)
-		}
+			let _this = this;
+
+
+
+			for (var i = 0; i < this.stations.length; i++) {
+				var tmp = L.marker([this.stations[i].latitude, this.stations[i].longitude], this.stations[i]);
+
+
+				tmp.addTo(this.map)
+				tmp.on('click', function(){
+						_this.$f7.mainView.router.load({url: '/projects/' + _this.id + '/stations/' + this.options.timestamp });
+				});
+			}
+		},
+
 	}
 }
 </script>

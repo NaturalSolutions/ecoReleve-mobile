@@ -15,7 +15,10 @@
             <f7-list>
               <f7-list-item link="#" title="Link"></f7-list-item>
             </f7-list>
+            <f7-button class="full-width" fill v-on:click="clear">Clear</f7-button>
           </f7-page>
+
+
         </f7-pages>
       </f7-view>
     </f7-panel>
@@ -77,6 +80,7 @@ export default {
   },
 
   methods: {
+    
     onF7Init(){
       if(this.$cookie.get('ecoReleve-Core')){
         this.redirect()
@@ -134,7 +138,17 @@ export default {
       this.$f7.mainView.router.load({url: '/projects/', force: true})
     },
 
+    clear() {
+      window.erase = true
+    }
+
   }
 
 }
 </script>
+
+<style>
+  .login-page{
+    /*background: linear-gradient(rgb(115, 183, 88), rgb(65, 110, 183));*/
+  }
+</style>

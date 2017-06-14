@@ -20,4 +20,9 @@ export default [
     component: require('./assets/vue/pages/observation.vue'),
   },
 
+  {
+    path: '/projects/:id/stations/:timestamp/',
+    component: require('./assets/vue/pages/station.vue'),
+  },
+
 ]

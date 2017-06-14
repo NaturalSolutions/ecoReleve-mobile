@@ -2,17 +2,12 @@ import axios from 'axios'
 import Vue from 'vue'
 
 
-let _obs = {
-  field_2: 4,
-  protocolId: 1
-}
-
 export default {
 
   state: {},
 
   getters: {
-    
+
   },
 
   mutations: {
@@ -24,13 +19,14 @@ export default {
       state.current.values[payload.key] = payload.value;
     },
 
-    finishCurrentObservation (state, payload) {
-      state.current.finished = true;
+    setCurrentObsStatus (state, payload) {
+      state.current.status = payload;
     },
 
-    unfinishCurrentObservation (state, payload) {
-      state.current.finished = false;
-    },
+    setCoordinates (state, payload) {
+      state.current.values.latitude = payload.lat;
+      state.current.values.longitude = payload.lng;
+    }
 
   },
 
@@ -52,7 +48,7 @@ export default {
         observation = { 
           timestamp : parseInt(options.timestamp),
           protocolId: rootState.protocols.current.id,
-          values: {}
+          values: { latitude: '', longitude: '' } //vuex needs references to data-bind it via v-model
         }
         rootState.projects.current.observations.push(observation)
       }

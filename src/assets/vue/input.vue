@@ -5,8 +5,9 @@
 			:name="param.name" 
 			:type=param.type
 			v-model=value
-			placeholder="Name"
+			placeholder=""
 			v-bind:class="{ 'text-danger': hasError }"
+			:disabled="disabled ? true : false"
 			>
 			
 			</f7-input>

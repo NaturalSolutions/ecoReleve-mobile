@@ -1,0 +1,73 @@
+<template>
+	<div>
+		<f7-label>{{ param.label }}</f7-label>
+		<f7-input 
+			:name="param.name" 
+			:type=param.type
+			v-model=value
+			placeholder=""
+			v-bind:class="{ 'text-danger': hasError }"
+			:disabled="disabled ? true : false"
+			>
+			
+			</f7-input>
+	</div>
+</template>
+
+<script>
+export default {
+	props: {
+		'param': {
+			type: Object
+		}
+	},
+
+
+	computed: {
+	  value: {
+	    get () {
+	    	let value = this.$store.state.observation.current.values[this.param.name];
+				this.check(value);
+	    	return value;
+	    },
+	    set (value) {
+	    	this.check(value);
+	      this.$store.commit('updateValue', {key: this.param.name, value: value})
+	    }
+	  }
+	},
+
+	data: function(){
+		return{
+			hasError: false,
+			disabled: () => {
+				if(this.$store.state.observation.current.status == 'finished' || this.params.disabled){
+				  return true
+				} else {
+					return false
+				}
+			}
+		}
+	},
+
+	methods: {
+		check(value) {
+			this.checkRequired(value);
+			this.checkValue(value);
+		},
+
+		checkRequired(value) {
+			if(!value && this.param.required){
+				this.hasError = true;
+			} else {
+				this.hasError = false;
+			}
+		},
+
+		checkValue(value) {
+			//custom test
+		},
+
+	}
+}
+</script>

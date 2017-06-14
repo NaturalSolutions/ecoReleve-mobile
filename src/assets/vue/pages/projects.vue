@@ -104,7 +104,6 @@ export default {
 
 	},
 
-
   methods: {
     importSelectedProjects(){
       for (var i = 0; i < this.selectedToImport.length; i++) {

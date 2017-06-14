@@ -17,16 +17,21 @@
   <f7-tabs>
   
     <f7-tab id="obsTab1" active>
+      <div id="obsMap"></div>
 
       <f7-list form>
-        <f7-list-item v-for="(field, index) in trace" v-bind:key="field.name">
+        <f7-list-item ref="fields" v-for="(field, index) in trace" v-bind:key="field.name">
 
+          <custom-input v-if="field.type === 'text'" :param=field>
+          </custom-input>
 
           <custom-select v-if="field.type === 'select'" :param=field>
           </custom-select>
 
-          <custom-input v-if="field.type === 'text'" :param=field>
-          </custom-input>
+          <custom-number v-if="field.type === 'number'" :param=field>
+          </custom-number>
+
+
         </f7-list-item>
       </f7-list>
 
@@ -90,6 +95,7 @@
 <script>
 import CustomInput from './../input.vue'
 import CustomSelect from './../input.select.vue'
+import CustomNumber from './../input.number.vue'
 import _ from 'lodash'
 export default {
 
@@ -98,7 +104,6 @@ export default {
     this.$store.commit('setCurrentProject', this.$route.params);
     this.$store.dispatch('setCurrentObservation', this.$route.params);
   },
-
 
   computed: {
     trace() {
@@ -110,32 +115,73 @@ export default {
     optional() {
       return this.$store.state.protocols.current.optional;
     },
-    currentProjectId() {
-      return this.$store.state.projects.current.ID;
+    currentProject() {
+      return this.$store.state.projects.current;
     },
-
-    // disabled() {
-    //   return this.$store.state.observation.currentObservation.disabled;
-    // }
+    currentObs() {
+      return this.$store.state.observation.current;
+    },
   },
 
   components: {
     'custom-input': CustomInput,
-    'custom-select': CustomSelect
+    'custom-select': CustomSelect,
+    'custom-number': CustomNumber
+  },
+
+  mounted(){
+    let _this = this;
+
+    if(this.map)
+      return;
+
+    this.map = L.map('obsMap').setView([51.505, -0.09], 13);
+
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(this.map);
+
+    let m;
+    this.map.on('click', function(e){
+      m = L.marker(e.latlng,{ draggable: true })
+      m.addTo(this)
+      console.log(m);
+      _this.$store.commit('setCoordinates', m._latlng)
+    });
   },
 
 
   methods: {
-    finish(){
-      this.$store.commit('finishCurrentObservation');
+    formHasErrors(){
+      let hasError = false
+      for (var i = 0; i < this.$refs.fields.length; i++) {
+        if(this.$refs.fields.hasError === true){
+          hasError = true
+        }
+      }
       
-      // this.$f7.mainView.router.back();
-      this.$f7.mainView.router.load({url: '/projects/' + this.currentProjectId});
+      return hasError;
+    },
+
+
+    finish(){
+      if(!this.formHasErrors()){
+        this.$store.commit('setCurrentObsStatus', 'finished')
+
+        if(!this.currentObs.stationId)
+          this.$store.dispatch('createStation')
+
+        this.$f7.mainView.router.load({url: '/projects/' + this.currentProject.ID})
+      } else {
+        //notification that there is errors
+      }
+
     },
 
     next(){
       //requires quick fix
-      this.$f7.showTab('#obsTab2', '#obsTab2', false, true);
+      this.$f7.showTab('#obsTab2', '#obsTab2', false, true)
     },
 
     onActionClick(e){
@@ -145,3 +191,10 @@ export default {
   }
 }
 </script>
+
+<style>
+  #obsMap{
+    height: 300px;
+    width: 100%;
+  }
+</style>
