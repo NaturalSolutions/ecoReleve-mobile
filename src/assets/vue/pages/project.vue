@@ -49,6 +49,7 @@ import Leaflet from 'leaflet'
 export default {
 
 	beforeCreate () {
+
 	  this.$store.commit('setCurrentProject', this.$route.params)
 	  this.$store.dispatch('scopeStations')
 	},
@@ -78,6 +79,7 @@ export default {
 
 	methods: {
 		onTabShow (){
+
 			if(this.map)
 				return;
 
@@ -88,8 +90,6 @@ export default {
 			}).addTo(this.map);
 
 			let _this = this;
-
-
 
 			for (var i = 0; i < this.stations.length; i++) {
 				var tmp = L.marker([this.stations[i].latitude, this.stations[i].longitude], this.stations[i]);

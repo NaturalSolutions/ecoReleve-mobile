@@ -6,7 +6,7 @@
 			type="number"
 			v-model=value
 			v-bind:class="{ 'text-danger': hasError }"
-			:disabled="false"
+			:disabled="disabled"
 			placeholder=""
 			>
 			
@@ -22,6 +22,9 @@ export default {
 		}, 
 		name: {
 			type: String
+		},
+		disabled: {
+			type: Boolean
 		}
 	},
 
@@ -29,7 +32,6 @@ export default {
 	computed: {
 	  value: {
 	    get () {
-	    	console.log(this.name);
 	    	let value = this.$store.state.observation.current.values[this.name];
 				this.check(value);
 	    	return value;
@@ -44,14 +46,6 @@ export default {
 	data: function(){
 		return{
 			hasError: false,
-			disabled: () => {
-				// if(this.$store.state.observation.current.status == 'finished' || this.params.disabled){
-				//   return true
-				// } else {
-				// 	return false
-				// }
-				return false
-			}
 		}
 	},
 

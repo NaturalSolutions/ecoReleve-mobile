@@ -1,4 +1,5 @@
 import axios from 'axios'
+import _ from 'lodash'
 
 let _protocols = {
   protocols: [
@@ -28,6 +29,7 @@ let _protocols = {
       required: {
 
       "type_milieu": {
+        tab: 'first',
         "fullPath": false,
         "editable": true,
         "size": 6,
@@ -419,9 +421,6 @@ export default {
 
   state: _protocols,
 
-  getters: {
-
-  },
 
   mutations: {
     setCurrentProtocol (state, payload) {

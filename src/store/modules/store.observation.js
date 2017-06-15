@@ -7,7 +7,9 @@ export default {
   state: {},
 
   getters: {
-
+    getFirstTabFileds (state){
+      
+    }
   },
 
   mutations: {

@@ -2,10 +2,12 @@
 	<div>
 		<f7-label>{{ param.title }}</f7-label>
 		<f7-input
-			:name="param.name" 
+			:name="name" 
 			type="select" 
 			v-model=value
 			v-bind:class="{ 'text-danger': hasError }"
+			:disabled="disabled"
+
 		>
 		  <option v-for="(option, index) in param.options" v-bind:key="option.value">
 		  	{{ option.label }}
@@ -19,19 +21,25 @@ export default {
 	props: {
 		'param': {
 			type: Object
+		},
+		name: {
+			type: String
+		},
+		disabled: {
+			type: Boolean
 		}
 	},
 
 	computed: {
 	  value: {
 	    get () {
-	    	let value = this.$store.state.observation.current.values[this.param.name];
+	    	let value = this.$store.state.observation.current.values[this.name];
 				this.check(value);
 	    	return value;
 	    },
 	    set (value) {
 	    	this.check(value);
-	      this.$store.commit('updateValue', {key: this.param.name, value: value})
+	      this.$store.commit('updateValue', {key: this.name, value: value})
 	    }
 	  }
 	},
@@ -39,14 +47,6 @@ export default {
 	data: function(){
 		return{
 			hasError: false,
-			disabled: () => {
-				// if(this.$store.state.observation.current.status == 'finished' || this.params.disabled){
-				//   return true
-				// } else {
-				// 	return false
-				// }
-				return false
-			}
 		}
 	},
 

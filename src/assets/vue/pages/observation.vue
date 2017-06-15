@@ -22,16 +22,14 @@
       <f7-list form>
         <f7-list-item ref="fields" v-for="(field, key) in trace">
 
-          <custom-input v-if="field.type === 'Text'" :name=key :param=field>
+          <custom-input v-if="field.type === 'Text'" :disabled="disabled" :name=key :param=field>
           </custom-input>
 
-          <custom-select v-if="field.type === 'Select'" :name=key :param=field>
+          <custom-select v-if="field.type === 'Select'" :disabled="disabled" :name=key :param=field>
           </custom-select>
 
-
-          <custom-number v-if="field.type === 'Number'" :name=key :param=field>
+          <custom-number v-if="field.type === 'Number'" :disabled="disabled" :name=key :param=field>
           </custom-number>
-
 
         </f7-list-item>
       </f7-list>
@@ -47,13 +45,13 @@
       <f7-list form>
         <f7-list-item ref="fields" v-for="(field, key) in required">
 
-          <custom-input v-if="field.type === 'Text'" :param=field>
+          <custom-input v-if="field.type === 'Text'" :disabled="disabled" :name=key :param=field>
           </custom-input>
 
-          <custom-select v-if="field.type === 'Select'" :param=field>
+          <custom-select v-if="field.type === 'Select'" :disabled="disabled" :name=key :param=field>
           </custom-select>
 
-          <custom-number v-if="field.type === 'Number'" :param=field>
+          <custom-number v-if="field.type === 'Number'" :disabled="disabled" :name=key :param=field>
           </custom-number>
 
         </f7-list-item>
@@ -65,19 +63,17 @@
     </f7-tab>
 
 
-
-
     <f7-tab id="obsTab3">
       <f7-list form>
         <f7-list-item ref="fields" v-for="(field, key) in optional">
 
-          <custom-input v-if="field.type === 'Text'" :param=field>
+          <custom-input v-if="field.type === 'Text'" :disabled="disabled" :name=key :param=field>
           </custom-input>
 
-          <custom-select v-if="field.type === 'Select'" :param=field>
+          <custom-select v-if="field.type === 'Select'" :disabled="disabled" :name=key :param=field>
           </custom-select>
 
-          <custom-number v-if="field.type === 'Number'" :param=field>
+          <custom-number v-if="field.type === 'Number'" :disabled="disabled" :name=key :param=field>
           </custom-number>
 
         </f7-list-item>
@@ -134,6 +130,12 @@ export default {
     currentObs() {
       return this.$store.state.observation.current;
     },
+    disabled() {
+      if(this.$store.state.observation.current.status == 'finished'){
+        return true;
+      }
+      return false;
+    },
   },
 
   components: {
@@ -182,7 +184,6 @@ export default {
 
       for (var i = 0; i < this.$refs.fields.length; i++) {
         let field = this.$refs.fields[i].$children[0].$children[0]
-        console.log(field);
         if(field.hasError === true){
           hasError = true
         }
@@ -200,7 +201,7 @@ export default {
         if(!this.currentObs.stationId)
           this.$store.dispatch('createStation')
 
-        this.$f7.mainView.router.load({url: '/projects/' + this.currentProject.ID})
+        this.$f7.mainView.router.back({url: '/projects/' + this.currentProject.ID, force: true})
       } else {
         console.log('errors on form');
         //notification that there is errors
