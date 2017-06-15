@@ -20,15 +20,16 @@
       <div id="obsMap"></div>
 
       <f7-list form>
-        <f7-list-item ref="fields" v-for="(field, index) in trace" v-bind:key="field.name">
+        <f7-list-item ref="fields" v-for="(field, key) in trace">
 
-          <custom-input v-if="field.type === 'text'" :param=field>
+          <custom-input v-if="field.type === 'Text'" :name=key :param=field>
           </custom-input>
 
-          <custom-select v-if="field.type === 'select'" :param=field>
+          <custom-select v-if="field.type === 'Select'" :name=key :param=field>
           </custom-select>
 
-          <custom-number v-if="field.type === 'number'" :param=field>
+
+          <custom-number v-if="field.type === 'Number'" :name=key :param=field>
           </custom-number>
 
 
@@ -42,14 +43,19 @@
     </f7-tab>
 
 
-
-
-
     <f7-tab id="obsTab2">
       <f7-list form>
-        <f7-list-item v-for="(field, index) in required" v-bind:key="field.name">
-          <custom-input :param=field>
+        <f7-list-item ref="fields" v-for="(field, key) in required">
+
+          <custom-input v-if="field.type === 'Text'" :param=field>
           </custom-input>
+
+          <custom-select v-if="field.type === 'Select'" :param=field>
+          </custom-select>
+
+          <custom-number v-if="field.type === 'Number'" :param=field>
+          </custom-number>
+
         </f7-list-item>
       </f7-list>
 
@@ -61,15 +67,22 @@
 
 
 
-
-
     <f7-tab id="obsTab3">
       <f7-list form>
-        <f7-list-item v-for="(field, index) in optional" v-bind:key="field.name">
-          <custom-input v-if="field.type === 'number'" :param=field>
+        <f7-list-item ref="fields" v-for="(field, key) in optional">
+
+          <custom-input v-if="field.type === 'Text'" :param=field>
           </custom-input>
+
+          <custom-select v-if="field.type === 'Select'" :param=field>
+          </custom-select>
+
+          <custom-number v-if="field.type === 'Number'" :param=field>
+          </custom-number>
+
         </f7-list-item>
       </f7-list>
+
       <f7-toolbar bottom class="custom">
           <f7-button class="full-width" @click="finish">Finish</f7-button>
       </f7-toolbar>
@@ -130,12 +143,13 @@ export default {
   },
 
   mounted(){
+
     let _this = this;
 
     if(this.map)
       return;
 
-    this.map = L.map('obsMap').setView([51.505, -0.09], 13);
+    this.map = L.map('obsMap').setView([45, 0], 5);
 
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -143,11 +157,21 @@ export default {
     }).addTo(this.map);
 
     let m;
+    let currentMarker;
+    if(this.currentObs.values.latitude && this.currentObs.values.longitude){
+      m = L.marker([this.currentObs.values.latitude, this.currentObs.values.longitude], {/* draggable: true*/ }).addTo(this.map)
+      this.map.panTo(m._latlng);
+      currentMarker = m;
+    }
+
+    //check disabled
     this.map.on('click', function(e){
-      m = L.marker(e.latlng,{ draggable: true })
+      m = L.marker(e.latlng, {/* draggable: true*/ })
       m.addTo(this)
-      console.log(m);
       _this.$store.commit('setCoordinates', m._latlng)
+      if(currentMarker)
+        _this.map.removeLayer(currentMarker);
+      currentMarker = m;
     });
   },
 
@@ -155,8 +179,11 @@ export default {
   methods: {
     formHasErrors(){
       let hasError = false
+
       for (var i = 0; i < this.$refs.fields.length; i++) {
-        if(this.$refs.fields.hasError === true){
+        let field = this.$refs.fields[i].$children[0].$children[0]
+        console.log(field);
+        if(field.hasError === true){
           hasError = true
         }
       }
@@ -167,6 +194,7 @@ export default {
 
     finish(){
       if(!this.formHasErrors()){
+
         this.$store.commit('setCurrentObsStatus', 'finished')
 
         if(!this.currentObs.stationId)
@@ -174,6 +202,7 @@ export default {
 
         this.$f7.mainView.router.load({url: '/projects/' + this.currentProject.ID})
       } else {
+        console.log('errors on form');
         //notification that there is errors
       }
 

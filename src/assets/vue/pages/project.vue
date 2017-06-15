@@ -81,7 +81,7 @@ export default {
 			if(this.map)
 				return;
 
-			this.map = L.map('map').setView([51.505, -0.09], 13);
+			this.map = L.map('map').setView([45, 0], 5);
 
 			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 			    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -93,8 +93,6 @@ export default {
 
 			for (var i = 0; i < this.stations.length; i++) {
 				var tmp = L.marker([this.stations[i].latitude, this.stations[i].longitude], this.stations[i]);
-
-
 				tmp.addTo(this.map)
 				tmp.on('click', function(){
 						_this.$f7.mainView.router.load({url: '/projects/' + _this.id + '/stations/' + this.options.timestamp });

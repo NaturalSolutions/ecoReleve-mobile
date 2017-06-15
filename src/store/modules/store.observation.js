@@ -27,7 +27,6 @@ export default {
       state.current.values.latitude = payload.lat;
       state.current.values.longitude = payload.lng;
     }
-
   },
 
   actions: {
@@ -56,7 +55,6 @@ export default {
       commit('setCurrentProtocol', observation.protocolId)
       commit('setCurrentObservation', observation)
     },
-
 
   }
 }

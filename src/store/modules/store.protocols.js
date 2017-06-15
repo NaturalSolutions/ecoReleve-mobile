@@ -5,32 +5,402 @@ let _protocols = {
     {
       id: 1,
       name: 'A',
-      trace: [
-        {
-          name: "latitude",
+      trace: {
+        "latitude": {
+          "title": "latitude *",
           label: "latitude",
-          type: "number",
+          type: "Number",
           disabled: true,
-        },
-        {
-          name: 'longitude',
+          "validators": [
+            "required"
+          ]
+        },        
+        "longitude": {
+          "title": "longitude *",
           label: "longitude",
-          type: "number",
+          type: "Number",
+          disabled: true,
+          "validators": [
+            "required"
+          ]
         },
-      ],
-      required: [
-        // {
-        //   name: "field_3",
-        //   label: "field 3",
-        //   type: "text",
-        // }
-      ],
+      },
+      required: {
+
+      "type_milieu": {
+        "fullPath": false,
+        "editable": true,
+        "size": 6,
+        "type": "Select",
+        "fieldClass": "None col-md-6",
+        "defaultValue": null,
+        "title": "Type de milieu",
+        "options": [
+          {
+            "val": "",
+            "label": ""
+          },
+          {
+            "val": "Autre",
+            "label": "Autre"
+          },
+          {
+            "val": "Cavité/Grotte",
+            "label": "Cavité/Grotte"
+          },
+          {
+            "val": "Etang/Mare/Marais",
+            "label": "Etang/Mare/Marais"
+          },
+          {
+            "val": "Forêt de conifères",
+            "label": "Forêt de conifères"
+          },
+          {
+            "val": "Forêt de feuillus",
+            "label": "Forêt de feuillus"
+          },
+          {
+            "val": "Forêt mixte",
+            "label": "Forêt mixte"
+          },
+          {
+            "val": "Haie/Friche/Lande",
+            "label": "Haie/Friche/Lande"
+          },
+          {
+            "val": "Mer/Océan",
+            "label": "Mer/Océan"
+          },
+          {
+            "val": "Milieu bocager",
+            "label": "Milieu bocager"
+          },
+          {
+            "val": "Milieu rupestre",
+            "label": "Milieu rupestre"
+          },
+          {
+            "val": "Milieu urbain/Bâtis",
+            "label": "Milieu urbain/Bâtis"
+          },
+          {
+            "val": "Plage/Vasière",
+            "label": "Plage/Vasière"
+          },
+          {
+            "val": "Plaine céréalière",
+            "label": "Plaine céréalière"
+          },
+          {
+            "val": "Prairie/Pâture",
+            "label": "Prairie/Pâture"
+          },
+          {
+            "val": "Rivière/Canal",
+            "label": "Rivière/Canal"
+          }
+        ],
+        "editorClass": "form-control",
+        "editorAttrs": {
+          "disabled": false
+        },
+        "name": "type_milieu",
+        "validators": []
+      },
+      "comportement": {
+        "fullPath": false,
+        "editable": true,
+        "size": 6,
+        "type": "Select",
+        "fieldClass": "None col-md-6",
+        "defaultValue": null,
+        "title": "Comportement/indice",
+        "options": [
+          {
+            "val": "",
+            "label": ""
+          },
+          {
+            "val": "Accouplement",
+            "label": "Accouplement"
+          },
+          {
+            "val": "Alimentation",
+            "label": "Alimentation"
+          },
+          {
+            "val": "Autre",
+            "label": "Autre"
+          },
+          {
+            "val": "Chant/Parade",
+            "label": "Chant/Parade"
+          },
+          {
+            "val": "Cri/Alerte",
+            "label": "Cri/Alerte"
+          },
+          {
+            "val": "Mort",
+            "label": "Mort"
+          },
+          {
+            "val": "Pelotes/Traces",
+            "label": "Pelotes/Traces"
+          },
+          {
+            "val": "Repos/Halte",
+            "label": "Repos/Halte"
+          },
+          {
+            "val": "Vol (bifurcation)",
+            "label": "Vol (bifurcation)"
+          },
+          {
+            "val": "Vol (plongeon)",
+            "label": "Vol (plongeon)"
+          },
+          {
+            "val": "Vol (survol)",
+            "label": "Vol (survol)"
+          },
+          {
+            "val": "Vol (traversée)",
+            "label": "Vol (traversée)"
+          },
+          {
+            "val": "Vol ascendant",
+            "label": "Vol ascendant"
+          },
+          {
+            "val": "Vol de chasse",
+            "label": "Vol de chasse"
+          }
+        ],
+        "editorClass": "form-control",
+        "editorAttrs": {
+          "disabled": false
+        },
+        "name": "comportement",
+        "validators": []
+      },
+      "nom_scientifique": {
+        "fullPath": false,
+        "editable": true,
+        "size": 6,
+        "type": "Text",
+        "fieldClass": "None col-md-6",
+        "defaultValue": null,
+        "title": "Nom scientifique *",
+        "options": "",
+        "editorClass": "form-control",
+        "editorAttrs": {
+          "disabled": false
+        },
+        "name": "nom_scientifique",
+        "validators": [
+          "required"
+        ]
+      },
+      "effectif": {
+        "fullPath": false,
+        "editable": true,
+        "size": 6,
+        "type": "Number",
+        "fieldClass": "None col-md-6",
+        "defaultValue": null,
+        "title": "Effectif *",
+        "options": "",
+        "editorClass": "form-control",
+        "editorAttrs": {
+          "disabled": false
+        },
+        "name": "effectif",
+        "validators": [
+          "required"
+        ]
+      },
+      "nom_vernaculaire": {
+        "fullPath": false,
+        "editable": true,
+        "size": 6,
+        "type": "Text",
+        "fieldClass": "None col-md-6",
+        "defaultValue": null,
+        "title": "Nom vernaculaire *",
+        "options": "",
+        "editorClass": "form-control",
+        "editorAttrs": {
+          "disabled": false
+        },
+        "name": "nom_vernaculaire",
+        "validators": [
+          "required"
+        ]
+      },
+      "hauteur_vol": {
+        "fullPath": false,
+        "editable": true,
+        "size": 6,
+        "type": "Select",
+        "fieldClass": "None col-md-6",
+        "defaultValue": null,
+        "title": "Hauteur de vol",
+        "options": [
+          {
+            "val": "",
+            "label": ""
+          },
+          {
+            "val": "H0",
+            "label": "H0"
+          },
+          {
+            "val": "H1",
+            "label": "H1"
+          },
+          {
+            "val": "H2",
+            "label": "H2"
+          },
+          {
+            "val": "H3",
+            "label": "H3"
+          }
+        ],
+        "editorClass": "form-control",
+        "editorAttrs": {
+          "disabled": false
+        },
+        "name": "hauteur_vol",
+        "validators": []
+      },
+      "type_inventaire": {
+        "fullPath": false,
+        "editable": true,
+        "size": 6,
+        "type": "Select",
+        "fieldClass": "None col-md-6",
+        "defaultValue": null,
+        "title": "Type d'inventaire *",
+        "options": [
+          {
+            "val": "",
+            "label": ""
+          },
+          {
+            "val": "IPA",
+            "label": "IPA"
+          },
+          {
+            "val": "Observation fortuite",
+            "label": "Observation fortuite"
+          },
+          {
+            "val": "Point d'écoute nocturne",
+            "label": "Point d'écoute nocturne"
+          },
+          {
+            "val": "Point migration",
+            "label": "Point migration"
+          },
+          {
+            "val": "Transect",
+            "label": "Transect"
+          }
+        ],
+        "editorClass": "form-control",
+        "editorAttrs": {
+          "disabled": false
+        },
+        "name": "type_inventaire",
+        "validators": [
+          "required"
+        ]
+      },
+      "code_atlas": {
+        "fullPath": false,
+        "editable": true,
+        "size": 6,
+        "type": "Select",
+        "fieldClass": "None col-md-6",
+        "defaultValue": null,
+        "title": "Code atlas",
+        "options": [
+          {
+            "val": "",
+            "label": ""
+          },
+          {
+            "val": "certain",
+            "label": "certain"
+          },
+          {
+            "val": "non",
+            "label": "non"
+          },
+          {
+            "val": "possible",
+            "label": "possible"
+          },
+          {
+            "val": "probable",
+            "label": "probable"
+          }
+        ],
+        "editorClass": "form-control",
+        "editorAttrs": {
+          "disabled": false
+        },
+        "name": "code_atlas",
+        "validators": []
+      },
+      "sexe": {
+        "fullPath": false,
+        "editable": true,
+        "size": 6,
+        "type": "Select",
+        "fieldClass": "None col-md-6",
+        "defaultValue": null,
+        "title": "Sexe",
+        "options": [
+          {
+            "val": "",
+            "label": ""
+          },
+          {
+            "val": "?",
+            "label": "?"
+          },
+          {
+            "val": "couple",
+            "label": "couple"
+          },
+          {
+            "val": "femelle",
+            "label": "femelle"
+          },
+          {
+            "val": "juv/imm",
+            "label": "juv/imm"
+          },
+          {
+            "val": "mâle",
+            "label": "mâle"
+          }
+        ],
+        "editorClass": "form-control",
+        "editorAttrs": {
+          "disabled": false
+        },
+        "name": "sexe",
+        "validators": []
+      }
+
+      },
       optional: [
-        // {
-        //   name: 'field_4',
-        //   label: "field 4",
-        //   type: "text",
-        // }
+        
       ],
     },{
       id: 2,
@@ -39,6 +409,8 @@ let _protocols = {
       id: 3,
       name: 'C'
     },
+
+
   ],
   current: {}
 }

@@ -7,20 +7,19 @@
 
     <!-- Left Panel -->
     <f7-panel left reveal layout="dark">
-      <f7-view id="left-panel-view" navbar-through>
         <f7-navbar v-if="$theme.ios" title="Left Panel"></f7-navbar>
-        <f7-pages>
+        <f7-pages navbar-through>
           <f7-page>
             <f7-navbar :title="profile.firstName + ' ' + profile.lastName"></f7-navbar>
             <f7-list>
-              <f7-list-item link="#" title="Link"></f7-list-item>
+              <br><br>
+              <f7-list-item link="/projects/" title="Projects"></f7-list-item>
             </f7-list>
             <f7-button class="full-width" fill v-on:click="clear">Clear</f7-button>
           </f7-page>
 
 
         </f7-pages>
-      </f7-view>
     </f7-panel>
 
 

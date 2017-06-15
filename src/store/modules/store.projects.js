@@ -51,8 +51,6 @@ export default {
     },
 
 
-
-
     setUnderSync(state, payload) {
       let project = state.projects.find((project) => {
         return project.ID === payload.ID
@@ -78,10 +76,6 @@ export default {
       delete project.observations
       project.imported = false
     },
-
-
-    
-    
 
     setCurrentProject(state, payload) {
       let project = state.projects.find((project) => {

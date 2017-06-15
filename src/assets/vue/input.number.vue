@@ -1,13 +1,13 @@
 <template>
 	<div>
-		<f7-label>{{ param.label }}</f7-label>
+		<f7-label>{{ param.title }}</f7-label>
 		<f7-input 
-			:name="param.name" 
-			:type=param.type
+			:name="name" 
+			type="number"
 			v-model=value
-			placeholder=""
 			v-bind:class="{ 'text-danger': hasError }"
-			:disabled="disabled ? true : false"
+			:disabled="false"
+			placeholder=""
 			>
 			
 			</f7-input>
@@ -19,6 +19,9 @@ export default {
 	props: {
 		'param': {
 			type: Object
+		}, 
+		name: {
+			type: String
 		}
 	},
 
@@ -26,13 +29,14 @@ export default {
 	computed: {
 	  value: {
 	    get () {
-	    	let value = this.$store.state.observation.current.values[this.param.name];
+	    	console.log(this.name);
+	    	let value = this.$store.state.observation.current.values[this.name];
 				this.check(value);
 	    	return value;
 	    },
 	    set (value) {
 	    	this.check(value);
-	      this.$store.commit('updateValue', {key: this.param.name, value: value})
+	      this.$store.commit('updateValue', {key: this.name, value: value})
 	    }
 	  }
 	},
@@ -41,11 +45,12 @@ export default {
 		return{
 			hasError: false,
 			disabled: () => {
-				if(this.$store.state.observation.current.status == 'finished' || this.params.disabled){
-				  return true
-				} else {
-					return false
-				}
+				// if(this.$store.state.observation.current.status == 'finished' || this.params.disabled){
+				//   return true
+				// } else {
+				// 	return false
+				// }
+				return false
 			}
 		}
 	},
@@ -57,7 +62,14 @@ export default {
 		},
 
 		checkRequired(value) {
-			if(!value && this.param.required){
+			let required = false;
+			if(this.param.validators){
+				if(this.param.validators[0] == 'required'){
+					required = true;
+				}
+			}
+
+			if(!value && required){
 				this.hasError = true;
 			} else {
 				this.hasError = false;
@@ -67,7 +79,6 @@ export default {
 		checkValue(value) {
 			//custom test
 		},
-
 	}
 }
 </script>
