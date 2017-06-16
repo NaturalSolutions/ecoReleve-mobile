@@ -7,9 +7,6 @@ export default {
   state: {},
 
   getters: {
-    getFirstTabFileds (state){
-      
-    }
   },
 
   mutations: {
@@ -17,17 +14,16 @@ export default {
       state.current = payload;
     },
 
-    updateValue (state, payload) {
+    updateObservationValue (state, payload) {
       state.current.values[payload.key] = payload.value;
     },
 
-    setCurrentObsStatus (state, payload) {
+    setCurrentObservationStatus (state, payload) {
       state.current.status = payload;
     },
 
-    setCoordinates (state, payload) {
-      state.current.values.latitude = payload.lat;
-      state.current.values.longitude = payload.lng;
+    setStationId (state, payload) {
+      state.current.stationId = payload
     }
   },
 
@@ -49,7 +45,7 @@ export default {
         observation = { 
           timestamp : parseInt(options.timestamp),
           protocolId: rootState.protocols.current.id,
-          values: { latitude: '', longitude: '' } //vuex needs references to data-bind it via v-model
+          values: {}
         }
         rootState.projects.current.observations.push(observation)
       }

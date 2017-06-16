@@ -1,6 +1,6 @@
 <template>
 
-<f7-page name="observation" with-subnavbar tabs no-swipeback>
+<f7-page name="observation" with-subnavbar tabs>
   <f7-navbar back-link="Back" title="Observation" sliding>
     <f7-nav-right>
       <f7-link icon="icon-bars" open-panel="left"></f7-link>
@@ -20,15 +20,15 @@
       <div id="obsMap"></div>
 
       <f7-list form>
-        <f7-list-item ref="fields" v-for="(field, key) in trace">
+        <f7-list-item ref="fields" v-for="(field, key) in stationFields">
 
-          <custom-input v-if="field.type === 'Text'" :disabled="disabled" :name=key :param=field>
+          <custom-input v-if="field.type === 'Text'" entity="station" :disabled="disabled" :name=key :param=field>
           </custom-input>
 
-          <custom-select v-if="field.type === 'Select'" :disabled="disabled" :name=key :param=field>
+          <custom-select v-if="field.type === 'Select'" entity="station" :disabled="disabled" :name=key :param=field>
           </custom-select>
 
-          <custom-number v-if="field.type === 'Number'" :disabled="disabled" :name=key :param=field>
+          <custom-number v-if="field.type === 'Number'" entity="station" :disabled="disabled" :name=key :param=field>
           </custom-number>
 
         </f7-list-item>
@@ -43,15 +43,15 @@
 
     <f7-tab id="obsTab2">
       <f7-list form>
-        <f7-list-item ref="fields" v-for="(field, key) in required">
+        <f7-list-item ref="fields" v-for="(field, key) in requiredFields">
 
-          <custom-input v-if="field.type === 'Text'" :disabled="disabled" :name=key :param=field>
+          <custom-input v-if="field.type === 'Text'" entity="obs" :disabled="disabled" :name=key :param=field>
           </custom-input>
 
-          <custom-select v-if="field.type === 'Select'" :disabled="disabled" :name=key :param=field>
+          <custom-select v-if="field.type === 'Select'" entity="obs" :disabled="disabled" :name=key :param=field>
           </custom-select>
 
-          <custom-number v-if="field.type === 'Number'" :disabled="disabled" :name=key :param=field>
+          <custom-number v-if="field.type === 'Number'" entity="obs" :disabled="disabled" :name=key :param=field>
           </custom-number>
 
         </f7-list-item>
@@ -67,14 +67,6 @@
       <f7-list form>
         <f7-list-item ref="fields" v-for="(field, key) in optional">
 
-          <custom-input v-if="field.type === 'Text'" :disabled="disabled" :name=key :param=field>
-          </custom-input>
-
-          <custom-select v-if="field.type === 'Select'" :disabled="disabled" :name=key :param=field>
-          </custom-select>
-
-          <custom-number v-if="field.type === 'Number'" :disabled="disabled" :name=key :param=field>
-          </custom-number>
 
         </f7-list-item>
       </f7-list>
@@ -112,13 +104,14 @@ export default {
   beforeCreate () {
     this.$store.commit('setCurrentProject', this.$route.params);
     this.$store.dispatch('setCurrentObservation', this.$route.params);
+    this.$store.dispatch('setCurrentStation');
   },
 
   computed: {
-    trace() {
-      return this.$store.state.protocols.current.trace;
+    stationFields() {
+      return this.$store.state.stations.schema;
     },    
-    required() {
+    requiredFields() {
       return this.$store.state.protocols.current.required;
     },
     optional() {
@@ -127,8 +120,12 @@ export default {
     currentProject() {
       return this.$store.state.projects.current;
     },
+
     currentObs() {
       return this.$store.state.observation.current;
+    },
+    currentStation() {
+      return this.$store.state.stations.current;
     },
     disabled() {
       if(this.$store.state.observation.current.status == 'finished'){
@@ -160,8 +157,8 @@ export default {
 
     let m;
     let currentMarker;
-    if(this.currentObs.values.latitude && this.currentObs.values.longitude){
-      m = L.marker([this.currentObs.values.latitude, this.currentObs.values.longitude], {/* draggable: true*/ }).addTo(this.map)
+    if(this.currentStation.values.latitude && this.currentStation.values.longitude){
+      m = L.marker([this.currentStation.values.latitude, this.currentStation.values.longitude], {/* draggable: true*/ }).addTo(this.map)
       this.map.panTo(m._latlng);
       currentMarker = m;
     }
@@ -182,6 +179,9 @@ export default {
     formHasErrors(){
       let hasError = false
 
+      if(!this.$refs.fields)
+        return false
+
       for (var i = 0; i < this.$refs.fields.length; i++) {
         let field = this.$refs.fields[i].$children[0].$children[0]
         if(field.hasError === true){
@@ -196,12 +196,10 @@ export default {
     finish(){
       if(!this.formHasErrors()){
 
-        this.$store.commit('setCurrentObsStatus', 'finished')
+        this.$store.commit('setCurrentObservationStatus', 'finished')
+        this.$store.commit('setCurrentStationStatus', 'finished')
 
-        if(!this.currentObs.stationId)
-          this.$store.dispatch('createStation')
-
-        this.$f7.mainView.router.back({url: '/projects/' + this.currentProject.ID, force: true})
+        this.$f7.mainView.router.load({url: '/projects/' + this.currentProject.ID, reloadPrevious: true})
       } else {
         console.log('errors on form');
         //notification that there is errors

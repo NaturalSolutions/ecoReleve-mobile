@@ -211,7 +211,11 @@ input {
 	border-bottom: 1px solid red;
 }
 
-// .list-block{
-// 	padding: 32px 0;
-// 	margin: 0;
-// }
+.tabs{
+	.tab{
+		padding-bottom: 50px;
+		&.no-padding-bottom{
+			padding-bottom: 0px;
+		}
+	}
+}

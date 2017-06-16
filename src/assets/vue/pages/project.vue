@@ -1,5 +1,5 @@
 <template>
-<f7-page name="project" with-subnavbar tabs no-swipeback>
+<f7-page name="project" with-subnavbar tabs>
   <f7-navbar back-link="Back" title="Project" sliding >
 	  <f7-nav-right>
 	    <f7-link icon="icon-bars" open-panel="left"></f7-link>
@@ -35,7 +35,7 @@
 
     </f7-tab>
 
-    <f7-tab id="tab2" class="full-height" @tab:show="onTabShow">
+    <f7-tab id="tab2" class="full-height no-padding-bottom" @tab:show="onTabShow">
 	      <div id="map"></div>
     </f7-tab>
 
@@ -49,9 +49,7 @@ import Leaflet from 'leaflet'
 export default {
 
 	beforeCreate () {
-
 	  this.$store.commit('setCurrentProject', this.$route.params)
-	  this.$store.dispatch('scopeStations')
 	},
 
 	// data: function(){
@@ -69,7 +67,7 @@ export default {
 	    return this.$store.state.projects.current.observations;
 	  },
 	  stations() {
-	    return this.$store.state.projects.current.stations;
+	    return this.$store.state.stations.stations.filter(station => station.status === 'finished');
 	  },
 	  id() {
 	  	return this.$store.state.projects.current.ID;
@@ -91,8 +89,10 @@ export default {
 
 			let _this = this;
 
+			console.log(this.stations);
+
 			for (var i = 0; i < this.stations.length; i++) {
-				var tmp = L.marker([this.stations[i].latitude, this.stations[i].longitude], this.stations[i]);
+				var tmp = L.marker([this.stations[i].values.latitude, this.stations[i].values.latitude], this.stations[i]);
 				tmp.addTo(this.map)
 				tmp.on('click', function(){
 						_this.$f7.mainView.router.load({url: '/projects/' + _this.id + '/stations/' + this.options.timestamp });

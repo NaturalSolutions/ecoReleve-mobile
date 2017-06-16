@@ -14,10 +14,12 @@
 	</div>
 </template>
 
+
+
 <script>
 export default {
 	props: {
-		'param': {
+		param: {
 			type: Object
 		},
 		name: {
@@ -25,6 +27,9 @@ export default {
 		},
 		disabled: {
 			type: Boolean
+		},
+		entity: {
+			type: String
 		}
 	},
 
@@ -32,13 +37,24 @@ export default {
 	computed: {
 	  value: {
 	    get () {
-	    	let value = this.$store.state.observation.current.values[this.name];
+				let ref;
+    		if(this.entity === 'station'){
+					ref = this.$store.state.stations.current;
+    		} else {
+    	  	ref = this.$store.state.observation.current;
+    		}
+
+	    	let value = ref.values[this.name];
 				this.check(value);
 	    	return value;
 	    },
 	    set (value) {
 	    	this.check(value);
-	      this.$store.commit('updateValue', {key: this.name, value: value})
+	    	if(this.entity === 'station'){
+	      	this.$store.commit('updateStationValue', {key: this.name, value: value})
+	    	} else {
+	      	this.$store.commit('updateObservationValue', {key: this.name, value: value})
+	    	}
 	    }
 	  }
 	},

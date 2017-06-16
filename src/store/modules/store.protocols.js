@@ -6,26 +6,7 @@ let _protocols = {
     {
       id: 1,
       name: 'A',
-      trace: {
-        "latitude": {
-          "title": "latitude *",
-          label: "latitude",
-          type: "Number",
-          disabled: true,
-          "validators": [
-            "required"
-          ]
-        },        
-        "longitude": {
-          "title": "longitude *",
-          label: "longitude",
-          type: "Number",
-          disabled: true,
-          "validators": [
-            "required"
-          ]
-        },
-      },
+
       required: {
 
       "type_milieu": {
