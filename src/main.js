@@ -34,6 +34,8 @@ import axios from 'axios'
 
 import VueCookie from 'vue-cookie'
 
+import config from './config.json'
+
 
 Vue.use(Framework7Vue);
 Vue.use(VueParams);
@@ -56,12 +58,12 @@ axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 //axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
 
 export const portalApi = axios.create({
-	baseURL: 'http://localhost:6543/portal-core/',
+	baseURL: config.portal,
   withCredentials: true,
 });
 
 export const erdApi = axios.create({
-	baseURL: 'http://localhost:6544/ecoReleve-Core/',
+	baseURL: config.erd,
   withCredentials: true,
 });
 

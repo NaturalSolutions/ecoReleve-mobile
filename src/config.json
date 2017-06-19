@@ -1,0 +1,4 @@
+{
+	"portal": "http://localhost:6543/portal-core/",
+	"erd": "http://localhost:6544/ecoReleve-Core/"
+}
