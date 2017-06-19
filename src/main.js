@@ -77,7 +77,7 @@ window.onbeforeunload = function(){
 
 var localStore = localStorage.getItem('store');
 if(localStore){
-	// store.replaceState(JSON.parse(localStore));
+	store.replaceState(JSON.parse(localStore));
 	if(store.state.user.cookie){
 		document.cookie = 'ecoReleve-Core=' + store.state.user.cookie /*+ '; expires=Thu, 18 Dec 2019 12:00:00 UTC'*/;
 	}

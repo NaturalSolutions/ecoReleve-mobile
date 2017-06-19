@@ -208,7 +208,7 @@ input {
 
 
 .text-danger{
-	border-bottom: 1px solid red;
+	border-bottom: 1px solid orange;
 }
 
 .tabs{
@@ -218,4 +218,12 @@ input {
 			padding-bottom: 0px;
 		}
 	}
+}
+
+.custom-marker{
+	height: 10px;
+	width: 10px;
+	border-radius: 100%;
+	background: white;
+	border: 2px solid black;
 }

@@ -310,7 +310,7 @@ var View = {
           swipeBackPageActiveArea: propsData.swipeBackPageActiveArea,
           swipeBackPageThreshold: propsData.swipeBackPageThreshold,
           //mjaouen
-          animatePages: true,
+          animatePages: false,
           preloadPreviousPage: propsData.preloadPreviousPage,
         };
 

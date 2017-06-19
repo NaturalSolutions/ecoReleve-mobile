@@ -15,7 +15,6 @@
               <br><br>
               <f7-list-item link="/projects/" title="Projects"></f7-list-item>
             </f7-list>
-            <f7-button class="full-width" fill v-on:click="clear">Clear</f7-button>
           </f7-page>
 
 

@@ -1,7 +1,7 @@
 <template>
 
 <f7-page name="observation" with-subnavbar tabs>
-  <f7-navbar back-link="Back" title="Observation" sliding>
+  <f7-navbar back-link="Back" :title="protocol.name" sliding>
     <f7-nav-right>
       <f7-link icon="icon-bars" open-panel="left"></f7-link>
     </f7-nav-right>
@@ -20,7 +20,7 @@
       <div id="obsMap"></div>
 
       <f7-list form>
-        <f7-list-item ref="fields" v-for="(field, key) in stationFields">
+        <f7-list-item ref="fields" v-for="(field, key) in stationFields" v-bind:key="field.name">
 
           <custom-input v-if="field.type === 'Text'" entity="station" :disabled="disabled" :name=key :param=field>
           </custom-input>
@@ -43,15 +43,15 @@
 
     <f7-tab id="obsTab2">
       <f7-list form>
-        <f7-list-item ref="fields" v-for="(field, key) in requiredFields">
+        <f7-list-item ref="fields" v-for="(field, key) in requiredFields" v-bind:key="field.name">
 
-          <custom-input v-if="field.type === 'Text'" entity="obs" :disabled="disabled" :name=key :param=field>
+          <custom-input v-if="field.type === 'Text'" entity="obs" :disabled="disabled" :name=field.name :param=field>
           </custom-input>
 
-          <custom-select v-if="field.type === 'Select'" entity="obs" :disabled="disabled" :name=key :param=field>
+          <custom-select v-if="field.type === 'Select'" entity="obs" :disabled="disabled" :name=field.name :param=field>
           </custom-select>
 
-          <custom-number v-if="field.type === 'Number'" entity="obs" :disabled="disabled" :name=key :param=field>
+          <custom-number v-if="field.type === 'Number'" entity="obs" :disabled="disabled" :name=field.name :param=field>
           </custom-number>
 
         </f7-list-item>
@@ -65,8 +65,15 @@
 
     <f7-tab id="obsTab3">
       <f7-list form>
-        <f7-list-item ref="fields" v-for="(field, key) in optional">
+        <f7-list-item ref="fields" v-for="(field, key) in optionalFields">
+          <custom-input v-if="field.type === 'Text'" entity="obs" :disabled="disabled" :name=field.name :param=field>
+          </custom-input>
 
+          <custom-select v-if="field.type === 'Select'" entity="obs" :disabled="disabled" :name=field.name :param=field>
+          </custom-select>
+
+          <custom-number v-if="field.type === 'Number'" entity="obs" :disabled="disabled" :name=field.name :param=field>
+        </custom-number>
 
         </f7-list-item>
       </f7-list>
@@ -110,20 +117,40 @@ export default {
   computed: {
     stationFields() {
       return this.$store.state.stations.schema;
-    },    
-    requiredFields() {
-      return this.$store.state.protocols.current.required;
     },
-    optional() {
-      return this.$store.state.protocols.current.optional;
+    protocol() {
+      return this.$store.state.protocols.current;
+    },
+    requiredFields() {
+      let requierds = [];
+      let schema = this.$store.state.protocols.current.schema;
+      for(let key in schema){
+        if(schema[key]['validators']){
+          if(schema[key]['validators'][0] === 'required'){
+            requierds.push(schema[key])
+          }
+        }
+      }
+      return requierds
+    },
+    optionalFields() {
+      let optionals = [];
+      let schema = this.$store.state.protocols.current.schema;
+      for(let key in schema){
+        if(schema[key]['validators']){
+          if(schema[key]['validators'][0] !== 'required'){
+            optionals.push(schema[key])
+          }
+        } else {
+          optionals.push(schema[key])
+        }
+      }
+      return optionals
     },
     currentProject() {
       return this.$store.state.projects.current;
     },
 
-    currentObs() {
-      return this.$store.state.observation.current;
-    },
     currentStation() {
       return this.$store.state.stations.current;
     },
@@ -133,6 +160,10 @@ export default {
       }
       return false;
     },
+
+    coords() {
+      
+    },
   },
 
   components: {
@@ -140,6 +171,7 @@ export default {
     'custom-select': CustomSelect,
     'custom-number': CustomNumber
   },
+
 
   mounted(){
 
@@ -156,26 +188,64 @@ export default {
     }).addTo(this.map);
 
     let m;
-    let currentMarker;
+
     if(this.currentStation.values.latitude && this.currentStation.values.longitude){
-      m = L.marker([this.currentStation.values.latitude, this.currentStation.values.longitude], {/* draggable: true*/ }).addTo(this.map)
+      let m = this.addMarker([this.currentStation.values.latitude, this.currentStation.values.longitude])
       this.map.panTo(m._latlng);
-      currentMarker = m;
+    } else {
+      this.geoloc()
     }
 
-    //check disabled
-    this.map.on('click', function(e){
-      m = L.marker(e.latlng, {/* draggable: true*/ })
-      m.addTo(this)
-      _this.$store.commit('setCoordinates', m._latlng)
-      if(currentMarker)
-        _this.map.removeLayer(currentMarker);
-      currentMarker = m;
-    });
+    if(!this.disabled){
+      this.map.on('click', function(e){
+        _this.$store.commit('setCoordinates', e.latlng)
+        _this.addMarker(e.latlng)
+      });
+    }
   },
 
-
   methods: {
+
+    addMarker(coords){
+      let m;
+      
+      let icon = L.divIcon({ 
+          iconSize: new L.Point(10, 10), 
+          className: 'custom-marker'
+      });
+
+      m = L.marker(coords, { icon: icon })
+      m.addTo(this.map)
+
+      if(this.currentMarker)
+        this.map.removeLayer(this.currentMarker);
+      this.currentMarker = m;
+      
+      return m;
+    },
+
+    geoloc(){
+      let _this = this
+      if (navigator.geolocation)
+          navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+      else {
+      }
+          
+      function successCallback(position){
+        let tmp = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+
+        }
+        _this.$store.commit('setCoordinates', tmp)
+        _this.addMarker([position.coords.latitude, position.coords.longitude])
+      };  
+
+      function errorCallback(error){
+        console.log('geoloc problem');
+      };
+    },
+
     formHasErrors(){
       let hasError = false
 
@@ -199,7 +269,7 @@ export default {
         this.$store.commit('setCurrentObservationStatus', 'finished')
         this.$store.commit('setCurrentStationStatus', 'finished')
 
-        this.$f7.mainView.router.load({url: '/projects/' + this.currentProject.ID, reloadPrevious: true})
+        this.$f7.mainView.router.load({url: '/projects/' + this.currentProject.ID, force: true})
       } else {
         console.log('errors on form');
         //notification that there is errors

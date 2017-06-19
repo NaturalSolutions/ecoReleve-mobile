@@ -6,7 +6,7 @@
 			type="select" 
 			v-model=value
 			v-bind:class="{ 'text-danger': hasError }"
-			:disabled="disabled"
+			:disabled="(!param.editable)? true : disabled"
 
 		>
 		  <option v-for="(option, index) in param.options" v-bind:key="option.value">

@@ -1,6 +1,6 @@
 <template>
 <f7-page name="project" with-subnavbar tabs>
-  <f7-navbar back-link="Back" title="Project" sliding >
+  <f7-navbar back-link="Back" :title="observations.length + ' Observations'" sliding >
 	  <f7-nav-right>
 	    <f7-link icon="icon-bars" open-panel="left"></f7-link>
 	  </f7-nav-right>
@@ -28,7 +28,6 @@
       </f7-list>
 
       <f7-toolbar bottom class="custom">
-          
           <f7-link class="full-width" href="/protocols/">Add an observation
           </f7-link>
       </f7-toolbar>
@@ -51,16 +50,6 @@ export default {
 	beforeCreate () {
 	  this.$store.commit('setCurrentProject', this.$route.params)
 	},
-
-	// data: function(){
-	//   return {
-	//     status: {
-	//       true: 'finished',
-	//       false: 'unfinished',
-	//       undefined: 'unfinished',
-	//     }
-	//   }
-	// },
 
 	computed: {
 	  observations() {
@@ -89,13 +78,24 @@ export default {
 
 			let _this = this;
 
-			console.log(this.stations);
+			let icon = L.divIcon({ 
+			    iconSize: new L.Point(10, 10), 
+			    className: 'custom-marker'
+			});
 
+			let m
 			for (var i = 0; i < this.stations.length; i++) {
-				var tmp = L.marker([this.stations[i].values.latitude, this.stations[i].values.latitude], this.stations[i]);
-				tmp.addTo(this.map)
-				tmp.on('click', function(){
-						_this.$f7.mainView.router.load({url: '/projects/' + _this.id + '/stations/' + this.options.timestamp });
+				m = L.marker(
+					[this.stations[i].values.latitude, this.stations[i].values.longitude], 
+					{
+						icon: icon,
+						data: this.stations[i]
+					},
+				);
+
+				m.addTo(this.map)
+				m.on('click', function(){
+						_this.$f7.mainView.router.load({url: '/projects/' + _this.id + '/stations/' + this.options.data.timestamp });
 				});
 			}
 		},

@@ -6,7 +6,7 @@
 			type="number"
 			v-model=value
 			v-bind:class="{ 'text-danger': hasError }"
-			:disabled="disabled"
+			:disabled="(!param.editable)? true : disabled"
 			placeholder=""
 			>
 			

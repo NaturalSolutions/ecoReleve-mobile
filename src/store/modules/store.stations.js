@@ -1,5 +1,5 @@
 import { erdApi } from '../../main.js'
-
+import moment from 'moment'
 
 export default {
 
@@ -7,28 +7,43 @@ export default {
     stations: [],
     schema: {
       "latitude": {
-        "title": "latitude *",
-        label: "latitude",
+        "title": "Latitude *",
         type: "Number",
-        disabled: true,
+        editable: false,
         "validators": [
           "required"
         ]
       },        
       "longitude": {
-        "title": "longitude *",
-        label: "longitude",
+        "title": "Longitude *",
         type: "Number",
-        disabled: true,
+        editable: false,
         "validators": [
           "required"
         ]
       }, 
+      "lieu": {
+        "title": "Lieu dit",
+        type: "Text",
+        editable: true,
+      },      
+      "name": {
+        "title": "Nom",
+        type: "Text",
+        editable: true,
+      },      
       "date": {
         "title": "date",
-        label: "date",
         type: "Text",
-        disabled: true,
+        editable: false,
+        "validators": [
+          "required"
+        ]
+      },
+      "time": {
+        "title": "time",
+        type: "Text",
+        editable: false,
         "validators": [
           "required"
         ]
@@ -85,7 +100,8 @@ export default {
         //or init new station
         station = {
           values: {
-            date: new Date(),
+            date: moment().format('DD/MM/YYYY'),
+            time: moment().format('H:mm'),
             latitude: '',
             longitude: '',
           },
