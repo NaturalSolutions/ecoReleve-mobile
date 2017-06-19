@@ -75,3 +75,5 @@ typings/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+src/config.json
